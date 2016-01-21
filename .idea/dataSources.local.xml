@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MySQL - onlinebank_db@51.255.160.57" uuid="bc605b27-37e3-4ff3-add2-19fad4a353c4">
+      <secret-storage>master_key</secret-storage>
+      <user-name>dev</user-name>
+    </data-source>
+  </component>
+</project>
