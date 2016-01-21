@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SonargraphConfiguration">
+    <option name="active" value="true" />
+    <option name="showProblemsInCompilerMessages" value="true" />
+    <option name="systemFileName" value="$PROJECT_DIR$/OnlineBank.sonargraph" />
+  </component>
+</project>
