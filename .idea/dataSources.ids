@@ -2591,7 +2591,6 @@
       <column id="626" parent="58" name="user_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
-        <default-expression>&apos;0&apos;</default-expression>
       </column>
       <column id="627" parent="58" name="first_name">
         <mandatory>1</mandatory>
@@ -2626,30 +2625,50 @@
         <data-type>varchar(45)</data-type>
       </column>
       <column id="635" parent="58" name="avatar">
+        <data-type>varchar(45)</data-type>
+        <default-expression>&apos;default_avatar&apos;</default-expression>
+      </column>
+      <column id="636" parent="58" name="cin">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <key id="636" parent="58" name="PRIMARY">
+      <index id="637" parent="58" name="User_cin_uindex">
+        <columns>cin</columns>
+        <unique>1</unique>
+      </index>
+      <index id="638" parent="58" name="User_mail_uindex">
+        <columns>mail</columns>
+        <unique>1</unique>
+      </index>
+      <key id="639" parent="58" name="PRIMARY">
         <columns>user_id</columns>
         <primary>1</primary>
       </key>
-      <column id="637" parent="59" name="withdrawallimitpromotion_id">
+      <key id="640" parent="58" name="User_cin_uindex">
+        <columns>cin</columns>
+        <underlying-index>User_cin_uindex</underlying-index>
+      </key>
+      <key id="641" parent="58" name="User_mail_uindex">
+        <columns>mail</columns>
+        <underlying-index>User_mail_uindex</underlying-index>
+      </key>
+      <column id="642" parent="59" name="withdrawallimitpromotion_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="638" parent="59" name="limit_pp">
+      <column id="643" parent="59" name="limit_pp">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="639" parent="59" name="period">
+      <column id="644" parent="59" name="period">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <key id="640" parent="59" name="PRIMARY">
+      <key id="645" parent="59" name="PRIMARY">
         <columns>withdrawallimitpromotion_id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="641" parent="59" name="fk_WithdrawalLimitPromotion_1">
+      <foreign-key id="646" parent="59" name="fk_WithdrawalLimitPromotion_1">
         <columns>withdrawallimitpromotion_id</columns>
         <ref-key>Promotion.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
