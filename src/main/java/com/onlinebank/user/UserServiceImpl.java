@@ -2,16 +2,15 @@ package com.onlinebank.user;
 
 import com.onlinebank.Utils;
 import com.onlinebank.user.exceptions.BadRequestException;
+import com.onlinebank.user.exceptions.UserEditingFailedException;
+import com.onlinebank.user.exceptions.UserNotFoundException;
 import com.onlinebank.user.exceptions.UserRegistrationFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * Created by p0wontnx on 1/21/16.
@@ -27,6 +26,22 @@ class UserServiceImpl implements UserService {
         this.repository = repository;
     }
 
+    @Override
+    public List<User> findAll() {
+        // retrieve all users
+        List<User> users = repository.findAll();
+        return users;
+    }
+
+    @Override
+    public User find(long id) throws UserNotFoundException {
+        // retrieve user by id
+        User user = repository.findOne(id);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+        return user;
+    }
 
     @Override
     public User register(User user) throws BadRequestException,
@@ -36,14 +51,10 @@ class UserServiceImpl implements UserService {
         if (Utils.isModelFieldNull(user)) {
             throw new BadRequestException();
         }
+        // set user id to null
+        user.setUser_id(null);
         // hash user password
-        try {
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-            byte[] encryptedPassword = md5.digest(user.getPassword().getBytes("UTF-8"));
-            user.setPassword((new HexBinaryAdapter()).marshal(encryptedPassword));
-        } catch (NoSuchAlgorithmException e) {
-        } catch (UnsupportedEncodingException e) {
-        }
+        user.setPassword(Utils.encryptPassword(user.getPassword()));
 
         try {
             // save user
@@ -57,5 +68,65 @@ class UserServiceImpl implements UserService {
         }
         throw new UserRegistrationFailedException();
 
+    }
+
+    @Override
+    public User edit(long id, User user) throws UserNotFoundException, UserEditingFailedException {
+
+        User oldUser = repository.findOne(id);
+
+        if (oldUser == null) {
+            throw new UserNotFoundException();
+        }
+
+        if (user.getFirst_name() != null) {
+            oldUser.setFirst_name(user.getFirst_name());
+        }
+        if (user.getLast_name() != null) {
+            oldUser.setLast_name(user.getLast_name());
+        }
+        if (user.getMail() != null) {
+            oldUser.setMail(user.getMail());
+        }
+        if (user.getPassword() != null) {
+            oldUser.setPassword(Utils.encryptPassword(user.getPassword()));
+        }
+        if (user.getAddress() != null) {
+            oldUser.setAddress(user.getAddress());
+        }
+        if (user.getCountry() != null) {
+            oldUser.setCountry(user.getCountry());
+        }
+        if (user.getState() != null) {
+            oldUser.setState(user.getState());
+        }
+        if (user.getCin() != null) {
+            oldUser.setCin(user.getCin());
+        }
+        if (user.getAvatar() != null) {
+            oldUser.setAvatar(user.getAvatar());
+        }
+        if (user.getZip() != null) {
+            oldUser.setZip(user.getZip());
+        }
+
+        try {
+            // edit user
+            oldUser = repository.save(oldUser);
+        } catch (DataIntegrityViolationException e) {
+            throw new UserEditingFailedException();
+        }
+
+        return oldUser;
+    }
+
+    @Override
+    public void remove(long id) throws UserNotFoundException {
+        // retrieve user by id
+        User user = repository.findOne(id);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+        repository.delete(user);
     }
 }
