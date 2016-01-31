@@ -8,10 +8,4 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 class AccountConfig {
-
-    @Bean
-    public AccountRepository accountRepository() {
-        return null;
-    }
-
 }

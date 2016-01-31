@@ -1,8 +1,8 @@
 package com.onlinebank.user;
 
 import com.onlinebank.OnlineBankApplicationTests;
-import com.onlinebank.Utils;
-import com.onlinebank.user.exceptions.BadRequestException;
+import com.onlinebank.utils.Utils;
+import com.onlinebank.utils.exceptions.BadRequestException;
 import com.onlinebank.user.exceptions.UserEditingFailedException;
 import com.onlinebank.user.exceptions.UserNotFoundException;
 import com.onlinebank.user.exceptions.UserRegistrationFailedException;
@@ -53,8 +53,8 @@ public class UserServiceTests extends OnlineBankApplicationTests {
     public void testFailedUserRegistrationRequest() throws Exception {
         User user1 = new User();
         // init user1
-        user1.setFirst_name("Fouad");
-        user1.setLast_name("Wahabi");
+        user1.setFirstName("Fouad");
+        user1.setLastName("Wahabi");
         String mail1 = Utils.generateString(new Random(), "abcdefghijklmnopqrstuvwxyz", 8);
         user1.setMail(mail1);
         user1.setPassword("password");
@@ -71,8 +71,8 @@ public class UserServiceTests extends OnlineBankApplicationTests {
 
         User user2 = new User();
         // init user2
-        user2.setFirst_name("Fouad");
-        user2.setLast_name("Wahabi");
+        user2.setFirstName("Fouad");
+        user2.setLastName("Wahabi");
         String mail2 = Utils.generateString(new Random(), "abcdefghijklmnopqrstuvwxyz", 8);
         user2.setMail(mail2);
         user2.setPassword("password");
@@ -90,8 +90,8 @@ public class UserServiceTests extends OnlineBankApplicationTests {
     public void testValidUserRegistration() throws Exception {
         User user = new User();
         // init user
-        user.setFirst_name("Fouad");
-        user.setLast_name("Wahabi");
+        user.setFirstName("Fouad");
+        user.setLastName("Wahabi");
         user.setMail(Utils.generateString(new Random(), "abcdefghijklmnopqrstuvwxyz", 8));
         user.setPassword("password");
         user.setCountry("TN");
@@ -110,8 +110,8 @@ public class UserServiceTests extends OnlineBankApplicationTests {
     public void testValidUserEditing() throws Exception {
         User user = new User();
         // init user
-        user.setFirst_name("Fouad");
-        user.setLast_name("Wahabi");
+        user.setFirstName("Fouad");
+        user.setLastName("Wahabi");
         user.setMail(Utils.generateString(new Random(), "abcdefghijklmnopqrstuvwxyz", 8));
         user.setPassword("password");
         user.setCountry("TN");
@@ -124,11 +124,11 @@ public class UserServiceTests extends OnlineBankApplicationTests {
 
         Assert.assertNotNull("failure - expect returned user not null", user);
 
-        user.setFirst_name("FouadW");
+        user.setFirstName("FouadW");
 
-        user = userService.edit(user.getUser_id(), user);
+        user = userService.edit(user.getUserId(), user);
 
-        Assert.assertEquals("failure - expect first_name after edit FouadW", "FouadW", user.getFirst_name());
+        Assert.assertEquals("failure - expect first_name after edit FouadW", "FouadW", user.getFirstName());
     }
 
 
@@ -136,8 +136,8 @@ public class UserServiceTests extends OnlineBankApplicationTests {
     public void testUserFailingEdit() throws Exception {
         User user1 = new User();
         // init user1
-        user1.setFirst_name("Fouad");
-        user1.setLast_name("Wahabi");
+        user1.setFirstName("Fouad");
+        user1.setLastName("Wahabi");
         String mail1 = Utils.generateString(new Random(), "abcdefghijklmnopqrstuvwxyz", 8);
         user1.setMail(mail1);
         user1.setPassword("password");
@@ -154,8 +154,8 @@ public class UserServiceTests extends OnlineBankApplicationTests {
 
         User user2 = new User();
         // init user2
-        user2.setFirst_name("Fouad");
-        user2.setLast_name("Wahabi");
+        user2.setFirstName("Fouad");
+        user2.setLastName("Wahabi");
         String mail2 = Utils.generateString(new Random(), "abcdefghijklmnopqrstuvwxyz", 8);
         user2.setMail(mail2);
         user2.setPassword("password");
@@ -167,15 +167,15 @@ public class UserServiceTests extends OnlineBankApplicationTests {
         user2.setCin(cin2);
 
         user2 = userService.register(user2);
-        System.out.println(user2.getCin());
+
         Assert.assertNotNull("failure - expect returned user2 not null", user2);
 
         User user = new User();
-        // edit with existing password
+        // edit with existing cin
         user.setCin(cin1);
         user.setMail(mail1);
 
-        user = userService.edit(user2.getUser_id(), user);
+        user = userService.edit(user2.getUserId(), user);
 
     }
 
@@ -184,8 +184,8 @@ public class UserServiceTests extends OnlineBankApplicationTests {
 
         User user = new User();
         // init user
-        user.setFirst_name("Fouad");
-        user.setLast_name("Wahabi");
+        user.setFirstName("Fouad");
+        user.setLastName("Wahabi");
         user.setMail(Utils.generateString(new Random(), "abcdefghijklmnopqrstuvwxyz", 8));
         user.setPassword("password");
         user.setCountry("TN");
@@ -198,9 +198,9 @@ public class UserServiceTests extends OnlineBankApplicationTests {
         user = userService.register(user);
 
         // remove user
-        userService.remove(user.getUser_id());
+        userService.remove(user.getUserId());
 
-        user = userService.find(user.getUser_id());
+        user = userService.find(user.getUserId());
 
     }
 

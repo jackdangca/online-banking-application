@@ -1,7 +1,7 @@
 package com.onlinebank.user;
 
-import com.onlinebank.Utils;
-import com.onlinebank.user.exceptions.BadRequestException;
+import com.onlinebank.utils.Utils;
+import com.onlinebank.utils.exceptions.BadRequestException;
 import com.onlinebank.user.exceptions.UserEditingFailedException;
 import com.onlinebank.user.exceptions.UserNotFoundException;
 import com.onlinebank.user.exceptions.UserRegistrationFailedException;
@@ -52,7 +52,7 @@ class UserServiceImpl implements UserService {
             throw new BadRequestException();
         }
         // set user id to null
-        user.setUser_id(null);
+        user.setUserId(null);
         // hash user password
         user.setPassword(Utils.encryptPassword(user.getPassword()));
 
@@ -63,7 +63,7 @@ class UserServiceImpl implements UserService {
             throw new UserRegistrationFailedException();
         }
         // verify if user was added successfully
-        if (user.getUser_id() != null) {
+        if (user.getUserId() != null) {
             return user;
         }
         throw new UserRegistrationFailedException();
@@ -79,11 +79,11 @@ class UserServiceImpl implements UserService {
             throw new UserNotFoundException();
         }
 
-        if (user.getFirst_name() != null) {
-            oldUser.setFirst_name(user.getFirst_name());
+        if (user.getFirstName() != null) {
+            oldUser.setFirstName(user.getFirstName());
         }
-        if (user.getLast_name() != null) {
-            oldUser.setLast_name(user.getLast_name());
+        if (user.getLastName() != null) {
+            oldUser.setLastName(user.getLastName());
         }
         if (user.getMail() != null) {
             oldUser.setMail(user.getMail());

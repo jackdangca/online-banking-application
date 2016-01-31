@@ -23,12 +23,12 @@
                 <element type="TypeFilter" name="Assignment">
                     <element type="IncludeTypePattern" name="**.user**"/>
                 </element>
-                <dependency toName="Project|OnlineBank::VerticalSlice|Account" type="AllowedDependency"/>
             </element>
             <element type="VerticalSlice" name="Account">
                 <element type="TypeFilter" name="Assignment">
                     <element type="IncludeTypePattern" name="**.account.**"/>
                 </element>
+                <dependency toName="Project|OnlineBank::VerticalSlice|User" type="AllowedDependency"/>
             </element>
         </architecture>
         <workspace>

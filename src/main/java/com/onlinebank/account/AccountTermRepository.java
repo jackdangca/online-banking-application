@@ -9,8 +9,5 @@ import java.util.List;
  * Created by p0wontnx on 1/21/16.
  */
 @Repository
-interface AccountRepository extends JpaRepository<Account, Long> {
-    List<Account> findAllByUserId(Long userId);
-
-    Account findOneByAccountIdAndUserId(Long accountId, Long userId);
+interface AccountTermRepository extends JpaRepository<AccountTerm, Long> {
 }

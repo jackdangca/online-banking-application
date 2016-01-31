@@ -1,4 +1,8 @@
-package com.onlinebank;
+package com.onlinebank.utils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
@@ -7,6 +11,7 @@ import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -24,7 +29,15 @@ public class Utils {
      */
     public static boolean isModelFieldNull(Object obj) {
 
-        for (Field field : obj.getClass().getDeclaredFields()) {
+        List<Field> fieldList = new ArrayList<Field>();
+
+        Class<?> current = obj.getClass();
+        while (current.getSuperclass() != null) {
+            fieldList.addAll(Arrays.asList(current.getDeclaredFields()));
+            current = current.getSuperclass();
+        }
+
+        for (Field field : fieldList) {
             if (field.isAnnotationPresent(NotNull.class)) {
                 field.setAccessible(true);
                 try {

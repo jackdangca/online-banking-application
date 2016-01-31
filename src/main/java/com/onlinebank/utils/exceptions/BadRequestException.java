@@ -1,4 +1,4 @@
-package com.onlinebank.user.exceptions;
+package com.onlinebank.utils.exceptions;
 
 /**
  * Created by p0wontnx on 1/27/16.

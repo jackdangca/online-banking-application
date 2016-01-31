@@ -3,7 +3,7 @@ package com.onlinebank.user;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlinebank.OnlineBankApplicationTests;
-import com.onlinebank.Utils;
+import com.onlinebank.utils.Utils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,9 +41,9 @@ public class UserControllerTests extends OnlineBankApplicationTests {
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.get(url)).andReturn();
 
-        Assert.assertEquals("failure - expected HTTP status 200", result.getResponse().getStatus(), HttpStatus.OK.value());
+        Assert.assertEquals("failure - expected HTTP status 200", HttpStatus.OK.value(), result.getResponse().getStatus());
 
-        Assert.assertTrue("failure - expected not empy response", !result.getResponse().getContentAsString().isEmpty());
+        Assert.assertTrue("failure - expected not empty response", !result.getResponse().getContentAsString().isEmpty());
 
     }
 
@@ -52,8 +52,8 @@ public class UserControllerTests extends OnlineBankApplicationTests {
 
         User user = new User();
         // init user
-        user.setFirst_name("Fouad");
-        user.setLast_name("Wahabi");
+        user.setFirstName("Fouad");
+        user.setLastName("Wahabi");
         user.setMail(Utils.generateString(new Random(), "abcdefghijklmnopqrstuvwxyz", 8));
         user.setPassword("password");
         user.setCountry("TN");
@@ -64,17 +64,17 @@ public class UserControllerTests extends OnlineBankApplicationTests {
 
         user = userService.register(user);
 
-        String url = "/api/user/" + user.getUser_id();
+        String url = "/api/user/" + user.getUserId();
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.get(url)).andReturn();
 
-        Assert.assertEquals("failure - expected HTTP status 200", result.getResponse().getStatus(), HttpStatus.OK.value());
+        Assert.assertEquals("failure - expected HTTP status 200", HttpStatus.OK.value(), result.getResponse().getStatus());
 
         String resultContent = result.getResponse().getContentAsString();
 
         JsonNode resultContentNode = new ObjectMapper().readTree(resultContent);
 
-        Assert.assertEquals("failure - expected id equal to " + user.getUser_id(), (long) user.getUser_id(), resultContentNode.get("user_id").asLong());
+        Assert.assertEquals("failure - expected id equal to " + user.getUserId(), (long) user.getUserId(), resultContentNode.get("result").get("userId").asLong());
 
     }
 
@@ -85,7 +85,7 @@ public class UserControllerTests extends OnlineBankApplicationTests {
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.get(url)).andReturn();
 
-        Assert.assertEquals("failure - expected HTTP status 404", result.getResponse().getStatus(), HttpStatus.NOT_FOUND.value());
+        Assert.assertEquals("failure - expected HTTP status 404", HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus());
 
     }
 
@@ -96,8 +96,8 @@ public class UserControllerTests extends OnlineBankApplicationTests {
 
         MultiValueMap<String, String> userInfos = new LinkedMultiValueMap<String, String>();
 
-        userInfos.put("first_name", Arrays.asList(new String[]{"Fouad"}));
-        userInfos.put("last_name", Arrays.asList(new String[]{"Wahabi"}));
+        userInfos.put("firstName", Arrays.asList(new String[]{"Fouad"}));
+        userInfos.put("lastName", Arrays.asList(new String[]{"Wahabi"}));
         userInfos.put("mail", Arrays.asList(new String[]{Utils.generateString(new Random(), "abcdefghijklmnopqrstuvwxyz", 8)}));
         userInfos.put("password", Arrays.asList(new String[]{"password"}));
         userInfos.put("country", Arrays.asList(new String[]{"TN"}));
@@ -113,7 +113,7 @@ public class UserControllerTests extends OnlineBankApplicationTests {
 
         MvcResult result = mvc.perform(requestBuilder).andReturn();
 
-        Assert.assertEquals("failure - expected HTTP status 200", result.getResponse().getStatus(), HttpStatus.OK.value());
+        Assert.assertEquals("failure - expected HTTP status 200", HttpStatus.OK.value(), result.getResponse().getStatus());
 
     }
 
@@ -124,8 +124,8 @@ public class UserControllerTests extends OnlineBankApplicationTests {
 
         MultiValueMap<String, String> userInfos = new LinkedMultiValueMap<String, String>();
 
-        userInfos.put("first_name", Arrays.asList(new String[]{"Fouad"}));
-        userInfos.put("last_name", Arrays.asList(new String[]{"Wahabi"}));
+        userInfos.put("firstName", Arrays.asList(new String[]{"Fouad"}));
+        userInfos.put("lastName", Arrays.asList(new String[]{"Wahabi"}));
         userInfos.put("mail", Arrays.asList(new String[]{Utils.generateString(new Random(), "abcdefghijklmnopqrstuvwxyz", 8)}));
         userInfos.put("password", Arrays.asList(new String[]{"password"}));
         userInfos.put("country", Arrays.asList(new String[]{"TN"}));
@@ -140,7 +140,7 @@ public class UserControllerTests extends OnlineBankApplicationTests {
 
         MvcResult result = mvc.perform(requestBuilder).andReturn();
 
-        Assert.assertEquals("failure - expected HTTP status 400", result.getResponse().getStatus(), HttpStatus.BAD_REQUEST.value());
+        Assert.assertEquals("failure - expected HTTP status 400", HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus());
 
         String resultContent = result.getResponse().getContentAsString();
 
@@ -148,9 +148,9 @@ public class UserControllerTests extends OnlineBankApplicationTests {
 
         Assert.assertNotNull(resultContentNode.get("errors"));
 
-        Assert.assertEquals("failure - response don't have exactly one error field", resultContentNode.get("errors").size(), 1);
+        Assert.assertEquals("failure - response don't have exactly one error field", 1, resultContentNode.get("errors").size());
 
-        Assert.assertEquals("failure - response's error field don't have cin error", resultContentNode.get("errors").get(0).asText(), "cin");
+        Assert.assertEquals("failure - response's error field don't have cin error", "cin", resultContentNode.get("errors").get(0).asText());
 
     }
 
@@ -161,8 +161,8 @@ public class UserControllerTests extends OnlineBankApplicationTests {
 
         MultiValueMap<String, String> userInfos = new LinkedMultiValueMap<String, String>();
 
-        userInfos.put("first_name", Arrays.asList(new String[]{"Fouad"}));
-        userInfos.put("last_name", Arrays.asList(new String[]{"Wahabi"}));
+        userInfos.put("firstName", Arrays.asList(new String[]{"Fouad"}));
+        userInfos.put("lastName", Arrays.asList(new String[]{"Wahabi"}));
         userInfos.put("mail", Arrays.asList(new String[]{Utils.generateString(new Random(), "abcdefghijklmnopqrstuvwxyz", 8)}));
         userInfos.put("password", Arrays.asList(new String[]{"password"}));
         userInfos.put("country", Arrays.asList(new String[]{"TN"}));
@@ -178,17 +178,17 @@ public class UserControllerTests extends OnlineBankApplicationTests {
 
         MvcResult result = mvc.perform(requestBuilder).andReturn();
 
-        Assert.assertEquals("failure - expected HTTP status 200", result.getResponse().getStatus(), HttpStatus.OK.value());
+        Assert.assertEquals("failure - expected HTTP status 200", HttpStatus.OK.value(), result.getResponse().getStatus());
 
         String resultContent = result.getResponse().getContentAsString();
 
         JsonNode resultContentNode = new ObjectMapper().readTree(resultContent);
 
-        url = "/api/user/" + resultContentNode.get("user").get("user_id").asLong() + "/edit";
+        url = "/api/user/" + resultContentNode.get("result").get("userId").asLong() + "/edit";
 
         userInfos = new LinkedMultiValueMap<String, String>();
 
-        userInfos.put("first_name", Arrays.asList(new String[]{"FouadW"}));
+        userInfos.put("firstName", Arrays.asList(new String[]{"FouadW"}));
 
         requestBuilder = MockMvcRequestBuilders.
                 post(url)
@@ -203,7 +203,7 @@ public class UserControllerTests extends OnlineBankApplicationTests {
 
         resultContentNode = new ObjectMapper().readTree(resultContent);
 
-        Assert.assertEquals("", "FouadW", resultContentNode.get("user").get("first_name").asText());
+        Assert.assertEquals("", "FouadW", resultContentNode.get("result").get("firstName").asText());
 
     }
 

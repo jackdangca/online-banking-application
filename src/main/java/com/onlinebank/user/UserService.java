@@ -1,6 +1,6 @@
 package com.onlinebank.user;
 
-import com.onlinebank.user.exceptions.BadRequestException;
+import com.onlinebank.utils.exceptions.BadRequestException;
 import com.onlinebank.user.exceptions.UserEditingFailedException;
 import com.onlinebank.user.exceptions.UserNotFoundException;
 import com.onlinebank.user.exceptions.UserRegistrationFailedException;
