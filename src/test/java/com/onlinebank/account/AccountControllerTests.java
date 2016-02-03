@@ -39,6 +39,7 @@ public class AccountControllerTests extends OnlineBankApplicationTests {
     }
 
 
+    //region Account infos tests
     @Test
     public void testListAllUserAccounts() throws Exception {
 
@@ -133,7 +134,9 @@ public class AccountControllerTests extends OnlineBankApplicationTests {
         Assert.assertEquals("failure - expected HTTP status 404", HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus());
 
     }
+    //endregion
 
+    //region Account creation tests
     @Test
     public void testValidAccountTermCreation() throws Exception {
 
@@ -397,5 +400,263 @@ public class AccountControllerTests extends OnlineBankApplicationTests {
         Assert.assertEquals("failure - response's error field don't have taxpromotionId error", "taxpromotionId", resultContentNode.get("errors").get(2).asText());
 
     }
+    //endregion
+
+    //region Account editing tests
+    @Test
+    public void testValidAccountTermEditing() throws Exception {
+
+        // register user to add account
+        User user = new User();
+        user.setFirstName("Fouad");
+        user.setLastName("Wahabi");
+        user.setMail(Utils.generateString(new Random(), "abcdefghijklmnopqrstuvwxyz", 8));
+        user.setPassword("password");
+        user.setCountry("TN");
+        user.setState("Tunis");
+        user.setZip(1002);
+        user.setAddress("Cite khadhra");
+        user.setCin(Utils.generateString(new Random(), "0123456789", 8));
+
+        user = userService.register(user);
+
+        String url = "/api/user/" + user.getUserId() + "/account/add/term";
+
+        MultiValueMap<String, String> accountInfos = new LinkedMultiValueMap<String, String>();
+
+        accountInfos.put("label", Arrays.asList(new String[]{"AccountTest"}));
+        accountInfos.put("duration", Arrays.asList(new String[]{"365"}));
+        accountInfos.put("bonuspromotionId", Arrays.asList(new String[]{"4"}));
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.
+                post(url)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .params(accountInfos);
+
+        MvcResult result = mvc.perform(requestBuilder).andReturn();
+
+        Assert.assertEquals("failure - expected HTTP status 200", HttpStatus.OK.value(), result.getResponse().getStatus());
+
+        String resultContent = result.getResponse().getContentAsString();
+
+        JsonNode resultContentNode = new ObjectMapper().readTree(resultContent);
+
+        Assert.assertNotNull(resultContentNode.get("result"));
+
+        url = "/api/user/" + user.getUserId() + "/account/" + resultContentNode.get("result").get("accountId").asText() + "/edit/term";
+
+        accountInfos = new LinkedMultiValueMap<String, String>();
+
+        accountInfos.put("label", Arrays.asList(new String[]{"AccountTestEdit"}));
+        accountInfos.put("duration", Arrays.asList(new String[]{"365"}));
+        accountInfos.put("bonuspromotionId", Arrays.asList(new String[]{"4"}));
+
+        requestBuilder = MockMvcRequestBuilders.
+                post(url)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .params(accountInfos);
+
+        result = mvc.perform(requestBuilder).andReturn();
+
+        Assert.assertEquals("failure - expected HTTP status 200", HttpStatus.OK.value(), result.getResponse().getStatus());
+
+        resultContent = result.getResponse().getContentAsString();
+
+        resultContentNode = new ObjectMapper().readTree(resultContent);
+
+        Assert.assertNotNull(resultContentNode.get("result"));
+
+        Assert.assertEquals("failure - expected label AccountTestEdit", "AccountTestEdit", resultContentNode.get("result").get("label").asText());
+
+    }
+
+    @Test
+    public void testValidAccountCurrentEditing() throws Exception {
+
+        // register user to add account
+        User user = new User();
+        user.setFirstName("Fouad");
+        user.setLastName("Wahabi");
+        user.setMail(Utils.generateString(new Random(), "abcdefghijklmnopqrstuvwxyz", 8));
+        user.setPassword("password");
+        user.setCountry("TN");
+        user.setState("Tunis");
+        user.setZip(1002);
+        user.setAddress("Cite khadhra");
+        user.setCin(Utils.generateString(new Random(), "0123456789", 8));
+
+        user = userService.register(user);
+
+        String url = "/api/user/" + user.getUserId() + "/account/add/current";
+
+        MultiValueMap<String, String> accountInfos = new LinkedMultiValueMap<String, String>();
+
+        accountInfos.put("label", Arrays.asList(new String[]{"AccountTest"}));
+        accountInfos.put("taxpromotionId", Arrays.asList(new String[]{"2"}));
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.
+                post(url)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .params(accountInfos);
+
+        MvcResult result = mvc.perform(requestBuilder).andReturn();
+
+        Assert.assertEquals("failure - expected HTTP status 200", HttpStatus.OK.value(), result.getResponse().getStatus());
+
+        String resultContent = result.getResponse().getContentAsString();
+
+        JsonNode resultContentNode = new ObjectMapper().readTree(resultContent);
+
+        Assert.assertNotNull(resultContentNode.get("result"));
+
+        url = "/api/user/" + user.getUserId() + "/account/" + resultContentNode.get("result").get("accountId").asText() + "/edit/current";
+
+        accountInfos = new LinkedMultiValueMap<String, String>();
+
+        accountInfos.put("label", Arrays.asList(new String[]{"AccountTestEdit"}));
+        accountInfos.put("taxpromotionId", Arrays.asList(new String[]{"2"}));
+
+        requestBuilder = MockMvcRequestBuilders.
+                post(url)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .params(accountInfos);
+
+        result = mvc.perform(requestBuilder).andReturn();
+
+        Assert.assertEquals("failure - expected HTTP status 200", HttpStatus.OK.value(), result.getResponse().getStatus());
+
+        resultContent = result.getResponse().getContentAsString();
+
+        resultContentNode = new ObjectMapper().readTree(resultContent);
+
+        Assert.assertNotNull(resultContentNode.get("result"));
+
+        Assert.assertEquals("failure - expected label AccountTestEdit", "AccountTestEdit", resultContentNode.get("result").get("label").asText());
+
+    }
+
+    @Test
+    public void testValidAccountSavingEditing() throws Exception {
+
+        // register user to add account
+        User user = new User();
+        user.setFirstName("Fouad");
+        user.setLastName("Wahabi");
+        user.setMail(Utils.generateString(new Random(), "abcdefghijklmnopqrstuvwxyz", 8));
+        user.setPassword("password");
+        user.setCountry("TN");
+        user.setState("Tunis");
+        user.setZip(1002);
+        user.setAddress("Cite khadhra");
+        user.setCin(Utils.generateString(new Random(), "0123456789", 8));
+
+        user = userService.register(user);
+
+        String url = "/api/user/" + user.getUserId() + "/account/add/saving";
+
+        MultiValueMap<String, String> accountInfos = new LinkedMultiValueMap<String, String>();
+
+        accountInfos.put("label", Arrays.asList(new String[]{"AccountTest"}));
+        accountInfos.put("bonuspromotionId", Arrays.asList(new String[]{"4"}));
+        accountInfos.put("withdrawallimitpromotionId", Arrays.asList(new String[]{"1"}));
+        accountInfos.put("taxpromotionId", Arrays.asList(new String[]{"2"}));
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.
+                post(url)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .params(accountInfos);
+
+        MvcResult result = mvc.perform(requestBuilder).andReturn();
+
+        Assert.assertEquals("failure - expected HTTP status 200", HttpStatus.OK.value(), result.getResponse().getStatus());
+
+        String resultContent = result.getResponse().getContentAsString();
+
+        JsonNode resultContentNode = new ObjectMapper().readTree(resultContent);
+
+        Assert.assertNotNull(resultContentNode.get("result"));
+
+        url = "/api/user/" + user.getUserId() + "/account/" + resultContentNode.get("result").get("accountId").asText() + "/edit/saving";
+
+        accountInfos = new LinkedMultiValueMap<String, String>();
+
+        accountInfos.put("label", Arrays.asList(new String[]{"AccountTestEdit"}));
+        accountInfos.put("bonuspromotionId", Arrays.asList(new String[]{"4"}));
+        accountInfos.put("withdrawallimitpromotionId", Arrays.asList(new String[]{"1"}));
+        accountInfos.put("taxpromotionId", Arrays.asList(new String[]{"2"}));
+
+        requestBuilder = MockMvcRequestBuilders.
+                post(url)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .params(accountInfos);
+
+        result = mvc.perform(requestBuilder).andReturn();
+
+        Assert.assertEquals("failure - expected HTTP status 200", HttpStatus.OK.value(), result.getResponse().getStatus());
+
+        resultContent = result.getResponse().getContentAsString();
+
+        resultContentNode = new ObjectMapper().readTree(resultContent);
+
+        Assert.assertNotNull(resultContentNode.get("result"));
+
+        Assert.assertEquals("failure - expected label AccountTestEdit", "AccountTestEdit", resultContentNode.get("result").get("label").asText());
+
+
+    }
+    //endregion
+
+    //region Account delete tests
+    @Test
+    public void testValidAccountTermRemove() throws Exception {
+
+        // register user to add account
+        User user = new User();
+        user.setFirstName("Fouad");
+        user.setLastName("Wahabi");
+        user.setMail(Utils.generateString(new Random(), "abcdefghijklmnopqrstuvwxyz", 8));
+        user.setPassword("password");
+        user.setCountry("TN");
+        user.setState("Tunis");
+        user.setZip(1002);
+        user.setAddress("Cite khadhra");
+        user.setCin(Utils.generateString(new Random(), "0123456789", 8));
+
+        user = userService.register(user);
+
+        String url = "/api/user/" + user.getUserId() + "/account/add/term";
+
+        MultiValueMap<String, String> accountInfos = new LinkedMultiValueMap<String, String>();
+
+        accountInfos.put("label", Arrays.asList(new String[]{"AccountTest"}));
+        accountInfos.put("duration", Arrays.asList(new String[]{"365"}));
+        accountInfos.put("bonuspromotionId", Arrays.asList(new String[]{"4"}));
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.
+                post(url)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .params(accountInfos);
+
+        MvcResult result = mvc.perform(requestBuilder).andReturn();
+
+        Assert.assertEquals("failure - expected HTTP status 200", HttpStatus.OK.value(), result.getResponse().getStatus());
+
+        String resultContent = result.getResponse().getContentAsString();
+
+        JsonNode resultContentNode = new ObjectMapper().readTree(resultContent);
+
+        Assert.assertNotNull(resultContentNode.get("result"));
+
+        url = "/api/user/" + user.getUserId() + "/account/" + resultContentNode.get("result").get("accountId") + "/remove";
+
+        requestBuilder = MockMvcRequestBuilders.
+                get(url);
+
+        result = mvc.perform(requestBuilder).andReturn();
+
+        Assert.assertEquals("failure - expected HTTP status 200", HttpStatus.OK.value(), result.getResponse().getStatus());
+
+    }
+    //endregion
 
 }

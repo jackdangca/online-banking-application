@@ -1,6 +1,7 @@
 package com.onlinebank.account;
 
 import com.onlinebank.account.exceptions.AccountCreationFailedException;
+import com.onlinebank.account.exceptions.AccountEditingException;
 import com.onlinebank.account.exceptions.AccountNotFoundException;
 import com.onlinebank.user.User;
 import com.onlinebank.utils.Utils;
@@ -42,6 +43,7 @@ class AccountServiceImpl implements AccountService {
 
     }
 
+    //region Accound finding
     @Override
     public List<Account> findAll(User user) {
         // retrieve all user accounts
@@ -58,7 +60,9 @@ class AccountServiceImpl implements AccountService {
         }
         return account;
     }
+    //endregion
 
+    //region Account creation
     @Override
     public Account add(Account account, User user) throws BadRequestException, AccountCreationFailedException {
 
@@ -213,4 +217,215 @@ class AccountServiceImpl implements AccountService {
         }
         throw new AccountCreationFailedException();
     }
+    //endregion
+
+    //region Account editing
+    @Override
+    public Account edit(Long accountId, Account account, User user) throws BadRequestException, AccountEditingException, AccountNotFoundException {
+
+        // retrieve a user account
+        Account oldAccount = accountRepository.findOneByAccountIdAndUserId(accountId, user.getUserId());
+
+        if (oldAccount == null) {
+            throw new AccountNotFoundException();
+        }
+
+        // update account label
+        if (account.getLabel() != null) {
+            oldAccount.setLabel(account.getLabel());
+        }
+
+        try {
+            // update account
+            oldAccount = accountRepository.save(oldAccount);
+        } catch (DataIntegrityViolationException e) {
+            throw new AccountEditingException();
+        }
+        // verify if account was updated successfully
+        if (oldAccount.getAccountId() != null) {
+            return oldAccount;
+        }
+        throw new AccountEditingException();
+    }
+
+    @Override
+    public AccountTerm edit(Long accountId, AccountTerm accountTerm, User user) throws BadRequestException, AccountEditingException, AccountNotFoundException {
+
+        // retrieve a user account
+        Account oldAccount = accountRepository.findOneByAccountIdAndUserId(accountId, user.getUserId());
+
+        if (oldAccount == null) {
+            throw new AccountNotFoundException();
+        }
+
+        AccountTerm oldTermAccount = accountTermRepository.findOne(accountId);
+
+        if (oldTermAccount == null) {
+            throw new AccountNotFoundException();
+        }
+
+        // update account label
+        if (accountTerm.getLabel() != null) {
+            oldTermAccount.setLabel(accountTerm.getLabel());
+        }
+
+        // update account duration
+        if (accountTerm.getDuration() != null) {
+            oldTermAccount.setDuration(accountTerm.getDuration());
+        }
+
+        // update account bonus promotion
+        if (accountTerm.getBonuspromotionId() != null) {
+            oldTermAccount.setBonuspromotionId(accountTerm.getBonuspromotionId());
+        }
+
+        try {
+            // update account
+            oldTermAccount = accountRepository.save(oldTermAccount);
+        } catch (DataIntegrityViolationException e) {
+            throw new AccountEditingException();
+        }
+        // verify if account was updated successfully
+        if (oldTermAccount.getAccountId() != null) {
+            return oldTermAccount;
+        }
+        throw new AccountEditingException();
+    }
+
+    @Override
+    public AccountTransaction edit(Long accountId, AccountTransaction accountTransaction, User user) throws BadRequestException, AccountEditingException, AccountNotFoundException {
+
+        // retrieve a user account
+        Account oldAccount = accountRepository.findOneByAccountIdAndUserId(accountId, user.getUserId());
+
+        if (oldAccount == null) {
+            throw new AccountNotFoundException();
+        }
+
+        AccountTransaction oldTransactionAccount = accountTransactionRepository.findOne(accountId);
+
+        if (oldTransactionAccount == null) {
+            throw new AccountNotFoundException();
+        }
+
+        // update account label
+        if (accountTransaction.getLabel() != null) {
+            oldTransactionAccount.setLabel(accountTransaction.getLabel());
+        }
+
+        try {
+            // update account
+            oldTransactionAccount = accountRepository.save(oldTransactionAccount);
+        } catch (DataIntegrityViolationException e) {
+            throw new AccountEditingException();
+        }
+        // verify if account was updated successfully
+        if (oldTransactionAccount.getAccountId() != null) {
+            return oldTransactionAccount;
+        }
+        throw new AccountEditingException();
+    }
+
+    @Override
+    public AccountSaving edit(Long accountId, AccountSaving accountSaving, User user) throws BadRequestException, AccountEditingException, AccountNotFoundException {
+
+        // retrieve a user account
+        Account oldAccount = accountRepository.findOneByAccountIdAndUserId(accountId, user.getUserId());
+
+        if (oldAccount == null) {
+            throw new AccountNotFoundException();
+        }
+
+        AccountSaving oldSavingAccount = accountSavingRepository.findOne(accountId);
+
+        if (oldSavingAccount == null) {
+            throw new AccountNotFoundException();
+        }
+
+        // update account label
+        if (accountSaving.getLabel() != null) {
+            oldSavingAccount.setLabel(accountSaving.getLabel());
+        }
+
+        // update account bonus promotion
+        if (accountSaving.getBonuspromotionId() != null) {
+            oldSavingAccount.setBonuspromotionId(accountSaving.getBonuspromotionId());
+        }
+
+        // update account tax promotion
+        if (accountSaving.getTaxpromotionId() != null) {
+            oldSavingAccount.setTaxpromotionId(accountSaving.getTaxpromotionId());
+        }
+
+        // update account withdrawallimit promotion
+        if (accountSaving.getWithdrawallimitpromotionId() != null) {
+            oldSavingAccount.setWithdrawallimitpromotionId(accountSaving.getWithdrawallimitpromotionId());
+        }
+
+        try {
+            // update account
+            oldSavingAccount = accountRepository.save(oldSavingAccount);
+        } catch (DataIntegrityViolationException e) {
+            throw new AccountEditingException();
+        }
+        // verify if account was updated successfully
+        if (oldSavingAccount.getAccountId() != null) {
+            return oldSavingAccount;
+        }
+        throw new AccountEditingException();
+    }
+
+    @Override
+    public AccountCurrent edit(Long accountId, AccountCurrent accountCurrent, User user) throws BadRequestException, AccountEditingException, AccountNotFoundException {
+
+        // retrieve a user account
+        Account oldAccount = accountRepository.findOneByAccountIdAndUserId(accountId, user.getUserId());
+
+        if (oldAccount == null) {
+            throw new AccountNotFoundException();
+        }
+
+        AccountCurrent oldCurrentAccount = accountCurrentRepository.findOne(accountId);
+
+        if (oldCurrentAccount == null) {
+            throw new AccountNotFoundException();
+        }
+
+        // update account label
+        if (accountCurrent.getLabel() != null) {
+            oldCurrentAccount.setLabel(accountCurrent.getLabel());
+        }
+
+        // update account tax promotion
+        if (accountCurrent.getTaxpromotionId() != null) {
+            oldCurrentAccount.setTaxpromotionId(accountCurrent.getTaxpromotionId());
+        }
+
+        try {
+            // update account
+            oldCurrentAccount = accountRepository.save(oldCurrentAccount);
+        } catch (DataIntegrityViolationException e) {
+            throw new AccountEditingException();
+        }
+        // verify if account was updated successfully
+        if (oldCurrentAccount.getAccountId() != null) {
+            return oldCurrentAccount;
+        }
+        throw new AccountEditingException();
+    }
+    //endregion
+
+    //region Account delete
+    @Override
+    public void remove(long accountId, User user) throws AccountNotFoundException {
+
+        // retrieve account
+        Account account = accountRepository.findOneByAccountIdAndUserId(accountId, user.getUserId());
+        if (user == null) {
+            throw new AccountNotFoundException();
+        }
+        accountRepository.delete(account);
+    }
+    //endregion
+
 }
