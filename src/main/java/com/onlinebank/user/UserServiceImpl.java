@@ -49,7 +49,7 @@ class UserServiceImpl implements UserService {
 
         // verify not null attributes
         if (Utils.isModelFieldNull(user)) {
-            throw new BadRequestException();
+            throw new BadRequestException(user);
         }
         // set user id to null
         user.setUserId(null);

@@ -78,7 +78,7 @@ class AccountServiceImpl implements AccountService {
 
         // verify not null attributes
         if (Utils.isModelFieldNull(account)) {
-            throw new BadRequestException();
+            throw new BadRequestException(account);
         }
 
         try {
@@ -109,7 +109,7 @@ class AccountServiceImpl implements AccountService {
 
         // verify not null attributes
         if (Utils.isModelFieldNull(accountTerm)) {
-            throw new BadRequestException();
+            throw new BadRequestException(accountTerm);
         }
 
         try {
@@ -140,7 +140,7 @@ class AccountServiceImpl implements AccountService {
 
         // verify not null attributes
         if (Utils.isModelFieldNull(accountTransaction)) {
-            throw new BadRequestException();
+            throw new BadRequestException(accountTransaction);
         }
 
         try {
@@ -171,7 +171,7 @@ class AccountServiceImpl implements AccountService {
 
         // verify not null attributes
         if (Utils.isModelFieldNull(accountSaving)) {
-            throw new BadRequestException();
+            throw new BadRequestException(accountSaving);
         }
 
         try {
@@ -202,7 +202,7 @@ class AccountServiceImpl implements AccountService {
 
         // verify not null attributes
         if (Utils.isModelFieldNull(accountCurrent)) {
-            throw new BadRequestException();
+            throw new BadRequestException(accountCurrent);
         }
 
         try {

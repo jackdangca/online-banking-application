@@ -9,7 +9,6 @@ import com.onlinebank.user.User;
 import com.onlinebank.user.UserService;
 import com.onlinebank.user.exceptions.UserNotFoundException;
 import com.onlinebank.utils.ResponseBuilder;
-import com.onlinebank.utils.Utils;
 import com.onlinebank.utils.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,52 +43,40 @@ public class AccountController {
 
     //region Account infos
     @RequestMapping(path = {"", "/"}, method = RequestMethod.GET)
-    public ResponseEntity<ObjectNode> listAllUserAccounts(@PathVariable("userId") Long userId) {
+    public ResponseEntity<ObjectNode> listAllUserAccounts(@PathVariable("userId") Long userId) throws UserNotFoundException {
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         User user = null;
 
-        try {
-            // retrieve user
-            user = userService.find(userId);
-        } catch (UserNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"User not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        }
+        // retrieve user
+        user = userService.find(userId);
 
         // retrieve account list
         List<Account> accountList = accountService.findAll(user);
         responseBuilder.setResponseResult(accountList);
 
         return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
+
     }
 
     @RequestMapping(path = "/{accountId}", method = RequestMethod.GET)
-    public ResponseEntity<ObjectNode> listAllUserAccountInfos(@PathVariable("userId") Long userId, @PathVariable("accountId") Long accountId) {
+    public ResponseEntity<ObjectNode> listAllUserAccountInfos(@PathVariable("userId") Long userId, @PathVariable("accountId") Long accountId) throws UserNotFoundException, AccountNotFoundException {
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         User user = null;
         Account account = null;
 
-        try {
-            // retrieve user
-            user = userService.find(userId);
-        } catch (UserNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"User not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        }
+        // retrieve user
+        user = userService.find(userId);
 
-        try {
-            // retrieve account
-            account = accountService.find(accountId, user);
-            responseBuilder.setResponseResult(account);
-        } catch (AccountNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"Account not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        }
+        // retrieve account
+        account = accountService.find(accountId, user);
+        responseBuilder.setResponseResult(account);
+
         return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
+
     }
     //endregion
 
@@ -98,31 +85,18 @@ public class AccountController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ObjectNode> addTermAccount(@PathVariable("userId") Long userId, AccountTerm accountTerm) {
+    public ResponseEntity<ObjectNode> addTermAccount(@PathVariable("userId") Long userId, AccountTerm accountTerm) throws UserNotFoundException, BadRequestException, AccountCreationFailedException {
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         User user = null;
 
-        try {
-            // retrieve user
-            user = userService.find(userId);
-        } catch (UserNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"User not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        }
+        // retrieve user
+        user = userService.find(userId);
 
-        try {
-            // create account
-            accountTerm = accountService.add(accountTerm, user);
-            responseBuilder.setResponseResult(accountTerm);
-        } catch (BadRequestException e) {
-            responseBuilder.setResponseErrors(Utils.getModelNullFields(accountTerm));
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.BAD_REQUEST.getReasonPhrase()).build(), HttpStatus.BAD_REQUEST);
-        } catch (AccountCreationFailedException e) {
-            responseBuilder.setResponseErrors(new String[]{"Account creation failed"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase()).build(), HttpStatus.PRECONDITION_FAILED);
-        }
+        // create account
+        accountTerm = accountService.add(accountTerm, user);
+        responseBuilder.setResponseResult(accountTerm);
 
         return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
 
@@ -132,31 +106,18 @@ public class AccountController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ObjectNode> addCurrentAccount(@PathVariable("userId") Long userId, AccountCurrent accountCurrent) {
+    public ResponseEntity<ObjectNode> addCurrentAccount(@PathVariable("userId") Long userId, AccountCurrent accountCurrent) throws UserNotFoundException, AccountCreationFailedException, BadRequestException {
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         User user = null;
 
-        try {
-            // retrieve user
-            user = userService.find(userId);
-        } catch (UserNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"User not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        }
+        // retrieve user
+        user = userService.find(userId);
 
-        try {
-            // create account
-            accountCurrent = accountService.add(accountCurrent, user);
-            responseBuilder.setResponseResult(accountCurrent);
-        } catch (BadRequestException e) {
-            responseBuilder.setResponseErrors(Utils.getModelNullFields(accountCurrent));
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.BAD_REQUEST.getReasonPhrase()).build(), HttpStatus.BAD_REQUEST);
-        } catch (AccountCreationFailedException e) {
-            responseBuilder.setResponseErrors(new String[]{"Account creation failed"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase()).build(), HttpStatus.PRECONDITION_FAILED);
-        }
+        // create account
+        accountCurrent = accountService.add(accountCurrent, user);
+        responseBuilder.setResponseResult(accountCurrent);
 
         return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
 
@@ -166,31 +127,18 @@ public class AccountController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ObjectNode> addSavingAccount(@PathVariable("userId") Long userId, AccountSaving accountSaving) {
+    public ResponseEntity<ObjectNode> addSavingAccount(@PathVariable("userId") Long userId, AccountSaving accountSaving) throws UserNotFoundException, AccountCreationFailedException, BadRequestException {
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         User user = null;
 
-        try {
-            // retrieve user
-            user = userService.find(userId);
-        } catch (UserNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"User not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        }
+        // retrieve user
+        user = userService.find(userId);
 
-        try {
-            // create account
-            accountSaving = accountService.add(accountSaving, user);
-            responseBuilder.setResponseResult(accountSaving);
-        } catch (BadRequestException e) {
-            responseBuilder.setResponseErrors(Utils.getModelNullFields(accountSaving));
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.BAD_REQUEST.getReasonPhrase()).build(), HttpStatus.BAD_REQUEST);
-        } catch (AccountCreationFailedException e) {
-            responseBuilder.setResponseErrors(new String[]{"Account creation failed"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase()).build(), HttpStatus.PRECONDITION_FAILED);
-        }
+        // create account
+        accountSaving = accountService.add(accountSaving, user);
+        responseBuilder.setResponseResult(accountSaving);
 
         return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
 
@@ -202,34 +150,18 @@ public class AccountController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ObjectNode> editTermAccount(@PathVariable("userId") Long userId, @PathVariable("accountId") Long accountId, AccountTerm accountTerm) {
+    public ResponseEntity<ObjectNode> editTermAccount(@PathVariable("userId") Long userId, @PathVariable("accountId") Long accountId, AccountTerm accountTerm) throws UserNotFoundException, AccountEditingException, AccountNotFoundException, BadRequestException {
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         User user = null;
 
-        try {
-            // retrieve user
-            user = userService.find(userId);
-        } catch (UserNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"User not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        }
+        // retrieve user
+        user = userService.find(userId);
 
-        try {
-            // edit account
-            accountTerm = accountService.edit(accountId, accountTerm, user);
-            responseBuilder.setResponseResult(accountTerm);
-        } catch (BadRequestException e) {
-            responseBuilder.setResponseErrors(Utils.getModelNullFields(accountTerm));
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.BAD_REQUEST.getReasonPhrase()).build(), HttpStatus.BAD_REQUEST);
-        } catch (AccountNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"Account not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        } catch (AccountEditingException e) {
-            responseBuilder.setResponseErrors(new String[]{"Account editing failed"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase()).build(), HttpStatus.PRECONDITION_FAILED);
-        }
+        // edit account
+        accountTerm = accountService.edit(accountId, accountTerm, user);
+        responseBuilder.setResponseResult(accountTerm);
 
         return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
 
@@ -239,34 +171,18 @@ public class AccountController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ObjectNode> editCurrentAccount(@PathVariable("userId") Long userId, @PathVariable("accountId") Long accountId, AccountCurrent accountCurrent) {
+    public ResponseEntity<ObjectNode> editCurrentAccount(@PathVariable("userId") Long userId, @PathVariable("accountId") Long accountId, AccountCurrent accountCurrent) throws UserNotFoundException, AccountEditingException, AccountNotFoundException, BadRequestException {
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         User user = null;
 
-        try {
-            // retrieve user
-            user = userService.find(userId);
-        } catch (UserNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"User not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        }
+        // retrieve user
+        user = userService.find(userId);
 
-        try {
-            // edit account
-            accountCurrent = accountService.edit(accountId, accountCurrent, user);
-            responseBuilder.setResponseResult(accountCurrent);
-        } catch (BadRequestException e) {
-            responseBuilder.setResponseErrors(Utils.getModelNullFields(accountCurrent));
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.BAD_REQUEST.getReasonPhrase()).build(), HttpStatus.BAD_REQUEST);
-        } catch (AccountNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"Account not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        } catch (AccountEditingException e) {
-            responseBuilder.setResponseErrors(new String[]{"Account editing failed"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase()).build(), HttpStatus.PRECONDITION_FAILED);
-        }
+        // edit account
+        accountCurrent = accountService.edit(accountId, accountCurrent, user);
+        responseBuilder.setResponseResult(accountCurrent);
 
         return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
 
@@ -276,34 +192,18 @@ public class AccountController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ObjectNode> editSavingAccount(@PathVariable("userId") Long userId, @PathVariable("accountId") Long accountId, AccountSaving accountSaving) {
+    public ResponseEntity<ObjectNode> editSavingAccount(@PathVariable("userId") Long userId, @PathVariable("accountId") Long accountId, AccountSaving accountSaving) throws UserNotFoundException, AccountEditingException, AccountNotFoundException, BadRequestException {
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         User user = null;
 
-        try {
-            // retrieve user
-            user = userService.find(userId);
-        } catch (UserNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"User not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        }
+        // retrieve user
+        user = userService.find(userId);
 
-        try {
-            // edit account
-            accountSaving = accountService.edit(accountId, accountSaving, user);
-            responseBuilder.setResponseResult(accountSaving);
-        } catch (BadRequestException e) {
-            responseBuilder.setResponseErrors(Utils.getModelNullFields(accountSaving));
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.BAD_REQUEST.getReasonPhrase()).build(), HttpStatus.BAD_REQUEST);
-        } catch (AccountNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"Account not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        } catch (AccountEditingException e) {
-            responseBuilder.setResponseErrors(new String[]{"Account editing failed"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase()).build(), HttpStatus.PRECONDITION_FAILED);
-        }
+        // edit account
+        accountSaving = accountService.edit(accountId, accountSaving, user);
+        responseBuilder.setResponseResult(accountSaving);
 
         return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
 
@@ -313,27 +213,17 @@ public class AccountController {
     //region Accout delete
     @RequestMapping(path = "/{accountId}/remove",
             method = RequestMethod.GET)
-    public ResponseEntity removeAccount(@PathVariable("userId") Long userId, @PathVariable("accountId") Long accountId) {
+    public ResponseEntity removeAccount(@PathVariable("userId") Long userId, @PathVariable("accountId") Long accountId) throws UserNotFoundException, AccountNotFoundException {
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         User user = null;
 
-        try {
-            // retrieve user
-            user = userService.find(userId);
-        } catch (UserNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"User not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        }
+        // retrieve user
+        user = userService.find(userId);
 
-        try {
-            // remove account
-            accountService.remove(accountId, user);
-        } catch (AccountNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"Account not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        }
+        // remove account
+        accountService.remove(accountId, user);
 
         // if success
         return new ResponseEntity(HttpStatus.OK);

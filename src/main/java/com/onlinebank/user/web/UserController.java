@@ -1,16 +1,13 @@
 package com.onlinebank.user.web;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.onlinebank.utils.ResponseBuilder;
-import com.onlinebank.utils.Utils;
 import com.onlinebank.user.User;
 import com.onlinebank.user.UserService;
-import com.onlinebank.utils.exceptions.BadRequestException;
 import com.onlinebank.user.exceptions.UserEditingFailedException;
 import com.onlinebank.user.exceptions.UserNotFoundException;
 import com.onlinebank.user.exceptions.UserRegistrationFailedException;
+import com.onlinebank.utils.ResponseBuilder;
+import com.onlinebank.utils.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,20 +50,16 @@ public class UserController {
     }
 
     @RequestMapping(path = {"/{userId}", "/{userId}/"}, method = RequestMethod.GET)
-    public ResponseEntity<ObjectNode> listUserInfos(@PathVariable("userId") long id) {
+    public ResponseEntity<ObjectNode> listUserInfos(@PathVariable("userId") long id) throws UserNotFoundException {
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         User user = null;
 
-        try {
-            // retrieve user info
-            user = userService.find(id);
-            responseBuilder.setResponseResult(user);
-        } catch (UserNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"User not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        }
+        // retrieve user info
+        user = userService.find(id);
+        responseBuilder.setResponseResult(user);
+
         return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
 
     }
@@ -75,60 +68,46 @@ public class UserController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ObjectNode> registerUser(User user) {
+    public ResponseEntity<ObjectNode> registerUser(User user) throws BadRequestException, UserRegistrationFailedException {
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
-        try {
-            // register user
-            user = userService.register(user);
-            responseBuilder.setResponseResult(user);
-        } catch (BadRequestException e) {
-            responseBuilder.setResponseErrors(Utils.getModelNullFields(user));
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.BAD_REQUEST.getReasonPhrase()).build(), HttpStatus.BAD_REQUEST);
-        } catch (UserRegistrationFailedException e) {
-            responseBuilder.setResponseErrors(new String[]{"User registration failed"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase()).build(), HttpStatus.PRECONDITION_FAILED);
-        }
+        // register user
+        user = userService.register(user);
+        responseBuilder.setResponseResult(user);
+
         // if success
         return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
+
     }
 
     @RequestMapping(path = "/{userId}/edit",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ObjectNode> editUser(@PathVariable("userId") long id, User user) {
+    public ResponseEntity<ObjectNode> editUser(@PathVariable("userId") long id, User user) throws UserNotFoundException, UserEditingFailedException {
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         // edit user
-        try {
-            user = userService.edit(id, user);
-            responseBuilder.setResponseResult(user);
-        } catch (UserNotFoundException e) {
-            responseBuilder.setResponseErrors(new String[]{"User not found"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase()).build(), HttpStatus.NOT_FOUND);
-        } catch (UserEditingFailedException e) {
-            responseBuilder.setResponseErrors(new String[]{"User editing failed"});
-            return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase()).build(), HttpStatus.PRECONDITION_FAILED);
-        }
+        user = userService.edit(id, user);
+        responseBuilder.setResponseResult(user);
+
         // if success
         return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
+
     }
 
     @RequestMapping(path = "/{userId}/remove",
             method = RequestMethod.GET)
-    public ResponseEntity removeUser(@PathVariable("userId") long id) {
+    public ResponseEntity removeUser(@PathVariable("userId") long id) throws UserNotFoundException {
 
         // remove user
-        try {
-            userService.remove(id);
-        } catch (UserNotFoundException e) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
+        userService.remove(id);
+
         // if success
         return new ResponseEntity(HttpStatus.OK);
+        
     }
 
 }
