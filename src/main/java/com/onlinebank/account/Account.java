@@ -33,6 +33,8 @@ public class Account {
     @NotNull
     private Long userId;
 
+    private String accountType;
+
     public Long getAccountId() {
         return accountId;
     }
@@ -88,4 +90,14 @@ public class Account {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public Account setAccountType(String accountType) {
+        this.accountType = accountType;
+        return this;
+    }
+
 }

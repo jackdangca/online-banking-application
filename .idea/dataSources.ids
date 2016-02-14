@@ -2267,412 +2267,415 @@
         <data-type>int(11)</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <key id="555" parent="44" name="PRIMARY">
+      <column id="555" parent="44" name="accountType">
+        <data-type>varchar(45)</data-type>
+      </column>
+      <key id="556" parent="44" name="PRIMARY">
         <columns>accountId</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="556" parent="44" name="fk_Account_1">
+      <foreign-key id="557" parent="44" name="fk_Account_1">
         <columns>userId</columns>
         <ref-key>User.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="557" parent="45" name="adminId">
+      <column id="558" parent="45" name="adminId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="558" parent="45" name="name">
+      <column id="559" parent="45" name="name">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <column id="559" parent="45" name="password">
+      <column id="560" parent="45" name="password">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <key id="560" parent="45" name="PRIMARY">
+      <key id="561" parent="45" name="PRIMARY">
         <columns>adminId</columns>
         <primary>1</primary>
       </key>
-      <column id="561" parent="46" name="bonuspromotionId">
+      <column id="562" parent="46" name="bonuspromotionId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="562" parent="46" name="bonusPp">
+      <column id="563" parent="46" name="bonusPp">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="563" parent="46" name="period">
+      <column id="564" parent="46" name="period">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <key id="564" parent="46" name="PRIMARY">
+      <key id="565" parent="46" name="PRIMARY">
         <columns>bonuspromotionId</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="565" parent="46" name="fk_BonusPromotion_1">
+      <foreign-key id="566" parent="46" name="fk_BonusPromotion_1">
         <columns>bonuspromotionId</columns>
         <ref-key>Promotion.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="566" parent="47" name="checkId">
+      <column id="567" parent="47" name="checkId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="567" parent="47" name="number">
+      <column id="568" parent="47" name="number">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="568" parent="47" name="balance">
+      <column id="569" parent="47" name="balance">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <column id="569" parent="47" name="code">
+      <column id="570" parent="47" name="code">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <key id="570" parent="47" name="PRIMARY">
+      <key id="571" parent="47" name="PRIMARY">
         <columns>checkId</columns>
         <primary>1</primary>
       </key>
-      <column id="571" parent="48" name="checktransactionId">
+      <column id="572" parent="48" name="checktransactionId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="572" parent="48" name="checkId">
+      <column id="573" parent="48" name="checkId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="573" parent="48" name="srcAccountId">
+      <column id="574" parent="48" name="srcAccountId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="574" parent="48" name="dstAccountId">
+      <column id="575" parent="48" name="dstAccountId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <key id="575" parent="48" name="PRIMARY">
+      <key id="576" parent="48" name="PRIMARY">
         <columns>checktransactionId</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="576" parent="48" name="fk_CheckTransaction_1">
+      <foreign-key id="577" parent="48" name="fk_CheckTransaction_1">
         <columns>checktransactionId</columns>
         <ref-key>Transaction.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="577" parent="48" name="fk_CheckTransaction_2">
+      <foreign-key id="578" parent="48" name="fk_CheckTransaction_2">
         <columns>checkId</columns>
         <ref-key>Check.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="578" parent="48" name="fk_CheckTransaction_3">
+      <foreign-key id="579" parent="48" name="fk_CheckTransaction_3">
         <columns>dstAccountId</columns>
         <ref-key>TransactionAccount.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="579" parent="48" name="fk_CheckTransaction_4">
+      <foreign-key id="580" parent="48" name="fk_CheckTransaction_4">
         <columns>srcAccountId</columns>
         <ref-key>CurrentAccount.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="580" parent="49" name="currentaccountId">
+      <column id="581" parent="49" name="currentaccountId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="581" parent="49" name="taxpromotionId">
+      <column id="582" parent="49" name="taxpromotionId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <key id="582" parent="49" name="PRIMARY">
+      <key id="583" parent="49" name="PRIMARY">
         <columns>currentaccountId</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="583" parent="49" name="fk_CurrentAccount_1">
+      <foreign-key id="584" parent="49" name="fk_CurrentAccount_1">
         <columns>taxpromotionId</columns>
         <ref-key>TaxPromotion.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="584" parent="49" name="fk_CurrentAccount_2">
+      <foreign-key id="585" parent="49" name="fk_CurrentAccount_2">
         <columns>currentaccountId</columns>
         <ref-key>TransactionAccount.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="585" parent="50" name="promotionId">
+      <column id="586" parent="50" name="promotionId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="586" parent="50" name="bannier">
+      <column id="587" parent="50" name="bannier">
         <data-type>varchar(45)</data-type>
       </column>
-      <key id="587" parent="50" name="PRIMARY">
+      <key id="588" parent="50" name="PRIMARY">
         <columns>promotionId</columns>
         <primary>1</primary>
       </key>
-      <column id="588" parent="51" name="savingaccountId">
+      <column id="589" parent="51" name="savingaccountId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="589" parent="51" name="bonuspromotionId">
+      <column id="590" parent="51" name="bonuspromotionId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="590" parent="51" name="withdrawallimitpromotionId">
+      <column id="591" parent="51" name="withdrawallimitpromotionId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="591" parent="51" name="taxpromotionId">
+      <column id="592" parent="51" name="taxpromotionId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <key id="592" parent="51" name="PRIMARY">
+      <key id="593" parent="51" name="PRIMARY">
         <columns>savingaccountId</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="593" parent="51" name="fk_SavingAccount_1">
+      <foreign-key id="594" parent="51" name="fk_SavingAccount_1">
         <columns>withdrawallimitpromotionId</columns>
         <ref-key>WithdrawalLimitPromotion.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="594" parent="51" name="fk_SavingAccount_2">
+      <foreign-key id="595" parent="51" name="fk_SavingAccount_2">
         <columns>taxpromotionId</columns>
         <ref-key>TaxPromotion.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="595" parent="51" name="fk_SavingAccount_3">
+      <foreign-key id="596" parent="51" name="fk_SavingAccount_3">
         <columns>bonuspromotionId</columns>
         <ref-key>BonusPromotion.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="596" parent="51" name="fk_SavingAccount_4">
+      <foreign-key id="597" parent="51" name="fk_SavingAccount_4">
         <columns>taxpromotionId</columns>
         <ref-key>TaxPromotion.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="597" parent="52" name="taxpromotionId">
+      <column id="598" parent="52" name="taxpromotionId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="598" parent="52" name="taxPp">
+      <column id="599" parent="52" name="taxPp">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="599" parent="52" name="period">
+      <column id="600" parent="52" name="period">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="600" parent="52" name="taxPt">
+      <column id="601" parent="52" name="taxPt">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <key id="601" parent="52" name="PRIMARY">
+      <key id="602" parent="52" name="PRIMARY">
         <columns>taxpromotionId</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="602" parent="52" name="fk_TaxPromotion_1">
+      <foreign-key id="603" parent="52" name="fk_TaxPromotion_1">
         <columns>taxpromotionId</columns>
         <ref-key>Promotion.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="603" parent="53" name="termaccountId">
+      <column id="604" parent="53" name="termaccountId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="604" parent="53" name="duration">
+      <column id="605" parent="53" name="duration">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="605" parent="53" name="bonuspromotionId">
+      <column id="606" parent="53" name="bonuspromotionId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <key id="606" parent="53" name="PRIMARY">
+      <key id="607" parent="53" name="PRIMARY">
         <columns>termaccountId</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="607" parent="53" name="fk_TermAccount_1">
+      <foreign-key id="608" parent="53" name="fk_TermAccount_1">
         <columns>termaccountId</columns>
         <ref-key>Account.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="608" parent="53" name="fk_TermAccount_2">
+      <foreign-key id="609" parent="53" name="fk_TermAccount_2">
         <columns>bonuspromotionId</columns>
         <ref-key>BonusPromotion.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="609" parent="54" name="ticketId">
+      <column id="610" parent="54" name="ticketId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="610" parent="54" name="number">
+      <column id="611" parent="54" name="number">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <column id="611" parent="54" name="balance">
+      <column id="612" parent="54" name="balance">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="612" parent="54" name="code">
+      <column id="613" parent="54" name="code">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <key id="613" parent="54" name="PRIMARY">
+      <key id="614" parent="54" name="PRIMARY">
         <columns>ticketId</columns>
         <primary>1</primary>
       </key>
-      <column id="614" parent="55" name="ticketdepositId">
+      <column id="615" parent="55" name="ticketdepositId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="615" parent="55" name="srcTicketId">
+      <column id="616" parent="55" name="srcTicketId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="616" parent="55" name="dstAccountId">
+      <column id="617" parent="55" name="dstAccountId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <key id="617" parent="55" name="PRIMARY">
+      <key id="618" parent="55" name="PRIMARY">
         <columns>ticketdepositId</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="618" parent="55" name="fk_TicketDeposit_1">
+      <foreign-key id="619" parent="55" name="fk_TicketDeposit_1">
         <columns>ticketdepositId</columns>
         <ref-key>Transaction.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="619" parent="55" name="fk_TicketDeposit_2">
+      <foreign-key id="620" parent="55" name="fk_TicketDeposit_2">
         <columns>dstAccountId</columns>
         <ref-key>TransactionAccount.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="620" parent="55" name="fk_TicketDeposit_3">
+      <foreign-key id="621" parent="55" name="fk_TicketDeposit_3">
         <columns>srcTicketId</columns>
         <ref-key>Ticket.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="621" parent="56" name="transactionId">
+      <column id="622" parent="56" name="transactionId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="622" parent="56" name="date">
+      <column id="623" parent="56" name="date">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <key id="623" parent="56" name="PRIMARY">
+      <key id="624" parent="56" name="PRIMARY">
         <columns>transactionId</columns>
         <primary>1</primary>
       </key>
-      <column id="624" parent="57" name="transactionaccountId">
+      <column id="625" parent="57" name="transactionaccountId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <key id="625" parent="57" name="PRIMARY">
+      <key id="626" parent="57" name="PRIMARY">
         <columns>transactionaccountId</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="626" parent="57" name="fk_TransactionAccount_1">
+      <foreign-key id="627" parent="57" name="fk_TransactionAccount_1">
         <columns>transactionaccountId</columns>
         <ref-key>Account.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="627" parent="58" name="userId">
+      <column id="628" parent="58" name="userId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="628" parent="58" name="firstName">
+      <column id="629" parent="58" name="firstName">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <column id="629" parent="58" name="lastName">
+      <column id="630" parent="58" name="lastName">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <column id="630" parent="58" name="mail">
+      <column id="631" parent="58" name="mail">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <column id="631" parent="58" name="password">
+      <column id="632" parent="58" name="password">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <column id="632" parent="58" name="country">
+      <column id="633" parent="58" name="country">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <column id="633" parent="58" name="state">
+      <column id="634" parent="58" name="state">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <column id="634" parent="58" name="zip">
+      <column id="635" parent="58" name="zip">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="635" parent="58" name="address">
+      <column id="636" parent="58" name="address">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <column id="636" parent="58" name="avatar">
+      <column id="637" parent="58" name="avatar">
         <data-type>varchar(45)</data-type>
         <default-expression>&apos;default_avatar&apos;</default-expression>
       </column>
-      <column id="637" parent="58" name="cin">
+      <column id="638" parent="58" name="cin">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <index id="638" parent="58" name="User_cin_uindex">
+      <index id="639" parent="58" name="User_cin_uindex">
         <columns>cin</columns>
         <unique>1</unique>
       </index>
-      <index id="639" parent="58" name="User_mail_uindex">
+      <index id="640" parent="58" name="User_mail_uindex">
         <columns>mail</columns>
         <unique>1</unique>
       </index>
-      <key id="640" parent="58" name="PRIMARY">
+      <key id="641" parent="58" name="PRIMARY">
         <columns>userId</columns>
         <primary>1</primary>
       </key>
-      <key id="641" parent="58" name="User_cin_uindex">
+      <key id="642" parent="58" name="User_cin_uindex">
         <columns>cin</columns>
         <underlying-index>User_cin_uindex</underlying-index>
       </key>
-      <key id="642" parent="58" name="User_mail_uindex">
+      <key id="643" parent="58" name="User_mail_uindex">
         <columns>mail</columns>
         <underlying-index>User_mail_uindex</underlying-index>
       </key>
-      <column id="643" parent="59" name="withdrawallimitpromotionId">
+      <column id="644" parent="59" name="withdrawallimitpromotionId">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="644" parent="59" name="limitPp">
+      <column id="645" parent="59" name="limitPp">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="645" parent="59" name="period">
+      <column id="646" parent="59" name="period">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <key id="646" parent="59" name="PRIMARY">
+      <key id="647" parent="59" name="PRIMARY">
         <columns>withdrawallimitpromotionId</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="647" parent="59" name="fk_WithdrawalLimitPromotion_1">
+      <foreign-key id="648" parent="59" name="fk_WithdrawalLimitPromotion_1">
         <columns>withdrawallimitpromotionId</columns>
         <ref-key>Promotion.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>

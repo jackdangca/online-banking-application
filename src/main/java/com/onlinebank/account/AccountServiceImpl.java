@@ -4,6 +4,7 @@ import com.onlinebank.account.exceptions.AccountCreationFailedException;
 import com.onlinebank.account.exceptions.AccountEditingException;
 import com.onlinebank.account.exceptions.AccountNotFoundException;
 import com.onlinebank.user.User;
+import com.onlinebank.utils.AccountTypes;
 import com.onlinebank.utils.Utils;
 import com.onlinebank.utils.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ class AccountServiceImpl implements AccountService {
         this.accountCurrentRepository = accountCurrentRepository;
     }
 
-    //region Accound finding
+    //region Account finding
     @Override
     public List<Account> findAll(User user) {
         // retrieve all user accounts
@@ -51,14 +52,59 @@ class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account find(Long account_id, User user) throws AccountNotFoundException {
+    public Account find(Long accountId, User user) throws AccountNotFoundException {
         // retrieve a user account
-        Account account = accountRepository.findOneByAccountIdAndUserId(account_id, user.getUserId());
+        Account account = accountRepository.findOneByAccountIdAndUserId(accountId, user.getUserId());
         if (account == null) {
             throw new AccountNotFoundException();
         }
         return account;
     }
+
+    @Override
+    public AccountTransaction findTransactionAccount(Long transactionAccountId, User user) throws AccountNotFoundException {
+        // retrieve a user account
+        Account account = accountRepository.findOneByAccountIdAndUserId(transactionAccountId, user.getUserId());
+        AccountTransaction accountTransaction = accountTransactionRepository.findOne(account.getAccountId());
+        if (accountTransaction == null) {
+            throw new AccountNotFoundException();
+        }
+        return accountTransaction;
+    }
+
+    @Override
+    public AccountTerm findTermAccount(Long termAccountId, User user) throws AccountNotFoundException {
+        // retrieve a user account
+        Account account = accountRepository.findOneByAccountIdAndUserId(termAccountId, user.getUserId());
+        AccountTerm accountTerm = accountTermRepository.findOne(account.getAccountId());
+        if (accountTerm == null) {
+            throw new AccountNotFoundException();
+        }
+        return accountTerm;
+    }
+
+    @Override
+    public AccountCurrent findCurrentAccount(Long currentAccountId, User user) throws AccountNotFoundException {
+        // retrieve a user account
+        Account account = accountRepository.findOneByAccountIdAndUserId(currentAccountId, user.getUserId());
+        AccountCurrent accountCurrent = accountCurrentRepository.findOne(account.getAccountId());
+        if (accountCurrent == null) {
+            throw new AccountNotFoundException();
+        }
+        return accountCurrent;
+    }
+
+    @Override
+    public AccountSaving findSavingAccount(Long savingAccountId, User user) throws AccountNotFoundException {
+        // retrieve a user account
+        Account account = accountRepository.findOneByAccountIdAndUserId(savingAccountId, user.getUserId());
+        AccountSaving accountSaving = accountSavingRepository.findOne(account.getAccountId());
+        if (accountSaving == null) {
+            throw new AccountNotFoundException();
+        }
+        return accountSaving;
+    }
+
     //endregion
 
     //region Account creation
@@ -113,6 +159,7 @@ class AccountServiceImpl implements AccountService {
         accountTerm.setBalance(0d);
         accountTerm.setCreationDate(new Date());
         accountTerm.setUserId(user.getUserId());
+        accountTerm.setAccountType(AccountTypes.TERM_ACCOUNT);
 
         // verify not null attributes
         if (Utils.isModelFieldNull(accountTerm)) {
@@ -183,6 +230,7 @@ class AccountServiceImpl implements AccountService {
         accountSaving.setBalance(0d);
         accountSaving.setCreationDate(new Date());
         accountSaving.setUserId(user.getUserId());
+        accountSaving.setAccountType(AccountTypes.SAVING_ACCOUNT);
 
         // verify not null attributes
         if (Utils.isModelFieldNull(accountSaving)) {
@@ -218,6 +266,7 @@ class AccountServiceImpl implements AccountService {
         accountCurrent.setBalance(0d);
         accountCurrent.setCreationDate(new Date());
         accountCurrent.setUserId(user.getUserId());
+        accountCurrent.setAccountType(AccountTypes.CURRENT_ACCOUNT);
 
         // verify not null attributes
         if (Utils.isModelFieldNull(accountCurrent)) {

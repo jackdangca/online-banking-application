@@ -17,6 +17,14 @@ public interface AccountService {
 
     Account find(Long accountId, User user) throws AccountNotFoundException;
 
+    AccountTransaction findTransactionAccount(Long transactionAccountId, User user) throws AccountNotFoundException;
+
+    AccountTerm findTermAccount(Long termAccountId, User user) throws AccountNotFoundException;
+
+    AccountCurrent findCurrentAccount(Long currentAccountId, User user) throws AccountNotFoundException;
+
+    AccountSaving findSavingAccount(Long savingAccountId, User user) throws AccountNotFoundException;
+
     Account add(Account account, User user) throws BadRequestException, AccountCreationFailedException;
 
     Account edit(Long accountId, Account account, User user) throws BadRequestException, AccountEditingException, AccountNotFoundException;

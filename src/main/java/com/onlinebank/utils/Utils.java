@@ -10,10 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by p0wontnx on 1/25/16.
@@ -103,6 +100,16 @@ public class Utils {
         } catch (UnsupportedEncodingException e) {
         }
         return null;
+    }
+
+    /**
+     * Days between two dates
+     * @param Date date1
+     * @param Date date2
+     * @return
+     */
+    public static int daysBetween(Date d1, Date d2){
+        return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
     }
 
 }
