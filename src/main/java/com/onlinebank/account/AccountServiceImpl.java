@@ -40,7 +40,6 @@ class AccountServiceImpl implements AccountService {
         this.accountSavingRepository = accountSavingRepository;
         Assert.notNull(accountCurrentRepository);
         this.accountCurrentRepository = accountCurrentRepository;
-
     }
 
     //region Accound finding
@@ -69,6 +68,10 @@ class AccountServiceImpl implements AccountService {
         // generate account number and password
         Long accountNumber = Math.abs(Math.abs(UUID.randomUUID().getMostSignificantBits()));
         String accountPassword = Utils.generateString(new Random(), "0123456789", 8);
+
+        while (accountRepository.findOneByNumber(accountNumber) != null) {
+            accountNumber = Math.abs(Math.abs(UUID.randomUUID().getMostSignificantBits()));
+        }
 
         account.setNumber(accountNumber);
         account.setPassword(accountPassword);
@@ -101,6 +104,10 @@ class AccountServiceImpl implements AccountService {
         Long accountNumber = Math.abs(UUID.randomUUID().getMostSignificantBits());
         String accountPassword = Utils.generateString(new Random(), "0123456789", 8);
 
+        while (accountRepository.findOneByNumber(accountNumber) != null) {
+            accountNumber = Math.abs(Math.abs(UUID.randomUUID().getMostSignificantBits()));
+        }
+
         accountTerm.setNumber(accountNumber);
         accountTerm.setPassword(accountPassword);
         accountTerm.setBalance(0d);
@@ -131,6 +138,10 @@ class AccountServiceImpl implements AccountService {
         // generate account number and password
         Long accountNumber = Math.abs(UUID.randomUUID().getMostSignificantBits());
         String accountPassword = Utils.generateString(new Random(), "0123456789", 8);
+
+        while (accountRepository.findOneByNumber(accountNumber) != null) {
+            accountNumber = Math.abs(Math.abs(UUID.randomUUID().getMostSignificantBits()));
+        }
 
         accountTransaction.setNumber(accountNumber);
         accountTransaction.setPassword(accountPassword);
@@ -163,6 +174,10 @@ class AccountServiceImpl implements AccountService {
         Long accountNumber = Math.abs(UUID.randomUUID().getMostSignificantBits());
         String accountPassword = Utils.generateString(new Random(), "0123456789", 8);
 
+        while (accountRepository.findOneByNumber(accountNumber) != null) {
+            accountNumber = Math.abs(Math.abs(UUID.randomUUID().getMostSignificantBits()));
+        }
+
         accountSaving.setNumber(accountNumber);
         accountSaving.setPassword(accountPassword);
         accountSaving.setBalance(0d);
@@ -193,6 +208,10 @@ class AccountServiceImpl implements AccountService {
         // generate account number and password
         Long accountNumber = Math.abs(UUID.randomUUID().getMostSignificantBits());
         String accountPassword = Utils.generateString(new Random(), "0123456789", 8);
+
+        while (accountRepository.findOneByNumber(accountNumber) != null) {
+            accountNumber = Math.abs(Math.abs(UUID.randomUUID().getMostSignificantBits()));
+        }
 
         accountCurrent.setNumber(accountNumber);
         accountCurrent.setPassword(accountPassword);

@@ -13,4 +13,6 @@ interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> findAllByUserId(Long userId);
 
     Account findOneByAccountIdAndUserId(Long accountId, Long userId);
+
+    Account findOneByNumber(Long number);
 }
