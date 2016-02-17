@@ -56,17 +56,23 @@ public class Utils {
      */
     public static List<String> getModelNullFields(Object obj) {
         List<String> nullFields = new ArrayList<String>();
-        for (Field field : obj.getClass().getDeclaredFields()) {
-            if (field.isAnnotationPresent(NotNull.class)) {
-                field.setAccessible(true);
-                try {
-                    if (field.get(obj) == null) {
-                        nullFields.add(field.getName());
+        Class clazz = obj.getClass();
+
+        while (clazz != Object.class) {
+            for (Field field : clazz.getDeclaredFields()) {
+                if (field.isAnnotationPresent(NotNull.class)) {
+                    field.setAccessible(true);
+                    try {
+                        if (field.get(obj) == null) {
+                            nullFields.add(field.getName());
+                        }
+                    } catch (IllegalAccessException e) {
                     }
-                } catch (IllegalAccessException e) {
                 }
             }
+            clazz = clazz.getSuperclass();
         }
+
         return nullFields;
     }
 
