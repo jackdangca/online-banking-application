@@ -10,6 +10,7 @@ import com.onlinebank.user.exceptions.UserRegistrationFailedException;
 import com.onlinebank.utils.exceptions.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -97,6 +98,18 @@ public class ExceptionHandlerController {
         responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase());
 
         return new ResponseEntity<ObjectNode>(responseBuilder.build(), HttpStatus.PRECONDITION_FAILED);
+
+    }
+
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity<ObjectNode> bindExceptionHandler(BindException e) {
+
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+
+        responseBuilder.setResponseErrors(new String[]{e.getFieldError().getField()});
+        responseBuilder.setResponseStatus(HttpStatus.BAD_REQUEST.getReasonPhrase());
+
+        return new ResponseEntity<ObjectNode>(responseBuilder.build(), HttpStatus.BAD_REQUEST);
 
     }
 
