@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity(name = "WithdrawalLimitPromotion")
 @PrimaryKeyJoinColumn(name = "withdrawallimitpromotionId", referencedColumnName = "promotionId")
-public class WithdrawalLimitPromotion extends Promotion {
+public class PromotionWithdrawalLimit extends Promotion {
 
     @Column(insertable = false, updatable = false)
     private Long withdrawallimitpromotionId;
@@ -25,7 +25,7 @@ public class WithdrawalLimitPromotion extends Promotion {
         return limitPp;
     }
 
-    public WithdrawalLimitPromotion setLimitPp(Double limitPp) {
+    public PromotionWithdrawalLimit setLimitPp(Double limitPp) {
         this.limitPp = limitPp;
         return this;
     }
@@ -34,7 +34,7 @@ public class WithdrawalLimitPromotion extends Promotion {
         return withdrawallimitpromotionId;
     }
 
-    public WithdrawalLimitPromotion setWithdrawallimitpromotionId(Long withdrawallimitpromotionId) {
+    public PromotionWithdrawalLimit setWithdrawallimitpromotionId(Long withdrawallimitpromotionId) {
         this.withdrawallimitpromotionId = withdrawallimitpromotionId;
         return this;
     }
@@ -43,7 +43,7 @@ public class WithdrawalLimitPromotion extends Promotion {
         return period;
     }
 
-    public WithdrawalLimitPromotion setPeriod(Integer period) {
+    public PromotionWithdrawalLimit setPeriod(Integer period) {
         this.period = period;
         return this;
     }

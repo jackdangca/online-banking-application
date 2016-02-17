@@ -13,10 +13,10 @@ public interface PromotionService {
 
     Promotion find(Long promotionId) throws PromotionNotFoundException;
 
-    TaxPromotion findTaxPromotion(Long taxpromotionId) throws PromotionNotFoundException;
+    PromotionTax findTaxPromotion(Long taxpromotionId) throws PromotionNotFoundException;
 
-    BonusPromotion findBonusPromotion(Long bonuspromotionId) throws PromotionNotFoundException;
+    PromotionBonus findBonusPromotion(Long bonuspromotionId) throws PromotionNotFoundException;
 
-    WithdrawalLimitPromotion findWithdrawalLimitPromotion(Long withdrawalLimitPromotionId) throws PromotionNotFoundException;
+    PromotionWithdrawalLimit findWithdrawalLimitPromotion(Long withdrawalLimitPromotionId) throws PromotionNotFoundException;
 
 }

@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity(name = "BonusPromotion")
 @PrimaryKeyJoinColumn(name = "bonuspromotionId", referencedColumnName = "promotionId")
-public class BonusPromotion extends Promotion {
+public class PromotionBonus extends Promotion {
 
     @Column(insertable = false, updatable = false)
     private Long bonuspromotionId;
@@ -25,7 +25,7 @@ public class BonusPromotion extends Promotion {
         return bonusPp;
     }
 
-    public BonusPromotion setBonusPp(Double bonusPp) {
+    public PromotionBonus setBonusPp(Double bonusPp) {
         this.bonusPp = bonusPp;
         return this;
     }
@@ -34,7 +34,7 @@ public class BonusPromotion extends Promotion {
         return period;
     }
 
-    public BonusPromotion setPeriod(Integer period) {
+    public PromotionBonus setPeriod(Integer period) {
         this.period = period;
         return this;
     }
@@ -43,7 +43,7 @@ public class BonusPromotion extends Promotion {
         return bonuspromotionId;
     }
 
-    public BonusPromotion setBonuspromotionId(Long bonuspromotionId) {
+    public PromotionBonus setBonuspromotionId(Long bonuspromotionId) {
         this.bonuspromotionId = bonuspromotionId;
         return this;
     }

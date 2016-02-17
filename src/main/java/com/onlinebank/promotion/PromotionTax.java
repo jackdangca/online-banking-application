@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity(name = "TaxPromotion")
 @PrimaryKeyJoinColumn(name = "taxpromotionId", referencedColumnName = "promotionId")
-public class TaxPromotion extends Promotion {
+public class PromotionTax extends Promotion {
 
     @Column(insertable = false, updatable = false)
     private Long taxpromotionId;
@@ -28,7 +28,7 @@ public class TaxPromotion extends Promotion {
         return taxPp;
     }
 
-    public TaxPromotion setTaxPp(Double taxPp) {
+    public PromotionTax setTaxPp(Double taxPp) {
         this.taxPp = taxPp;
         return this;
     }
@@ -37,7 +37,7 @@ public class TaxPromotion extends Promotion {
         return taxPt;
     }
 
-    public TaxPromotion setTaxPt(Double taxPt) {
+    public PromotionTax setTaxPt(Double taxPt) {
         this.taxPt = taxPt;
         return this;
     }
@@ -46,7 +46,7 @@ public class TaxPromotion extends Promotion {
         return taxpromotionId;
     }
 
-    public TaxPromotion setTaxpromotionId(Long taxpromotionId) {
+    public PromotionTax setTaxpromotionId(Long taxpromotionId) {
         this.taxpromotionId = taxpromotionId;
         return this;
     }
@@ -55,7 +55,7 @@ public class TaxPromotion extends Promotion {
         return period;
     }
 
-    public TaxPromotion setPeriod(Integer period) {
+    public PromotionTax setPeriod(Integer period) {
         this.period = period;
         return this;
     }

@@ -15,6 +15,8 @@ public class Promotion {
 
     private String bannier;
 
+    private String promotionType;
+
     public Long getPromotionId() {
         return promotionId;
     }
@@ -30,6 +32,15 @@ public class Promotion {
 
     public Promotion setBannier(String bannier) {
         this.bannier = bannier;
+        return this;
+    }
+
+    public String getPromotionType() {
+        return promotionType;
+    }
+
+    public Promotion setPromotionType(String promotionType) {
+        this.promotionType = promotionType;
         return this;
     }
 }

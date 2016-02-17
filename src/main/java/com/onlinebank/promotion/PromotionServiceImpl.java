@@ -14,20 +14,20 @@ import java.util.List;
 class PromotionServiceImpl implements PromotionService {
 
     private PromotionRepository promotionRepository;
-    private BonusPromotionRepository bonusPromotionRepository;
-    private TaxPromotionRepository taxPromotionRepository;
-    private WithdrawalLimitPromotionRepository withdrawalLimitPromotionRepository;
+    private PromotionBonusRepository promotionBonusRepository;
+    private PromotionTaxRepository promotionTaxRepository;
+    private PromotionWithdrawalLimitRepository promotionWithdrawalLimitRepository;
 
     @Autowired
-    public PromotionServiceImpl(PromotionRepository promotionRepository, BonusPromotionRepository bonusPromotionRepository, TaxPromotionRepository taxPromotionRepository, WithdrawalLimitPromotionRepository withdrawalLimitPromotionRepository) {
+    public PromotionServiceImpl(PromotionRepository promotionRepository, PromotionBonusRepository promotionBonusRepository, PromotionTaxRepository promotionTaxRepository, PromotionWithdrawalLimitRepository promotionWithdrawalLimitRepository) {
         Assert.notNull(promotionRepository);
         this.promotionRepository = promotionRepository;
-        Assert.notNull(bonusPromotionRepository);
-        this.bonusPromotionRepository = bonusPromotionRepository;
-        Assert.notNull(taxPromotionRepository);
-        this.taxPromotionRepository = taxPromotionRepository;
-        Assert.notNull(withdrawalLimitPromotionRepository);
-        this.withdrawalLimitPromotionRepository = withdrawalLimitPromotionRepository;
+        Assert.notNull(promotionBonusRepository);
+        this.promotionBonusRepository = promotionBonusRepository;
+        Assert.notNull(promotionTaxRepository);
+        this.promotionTaxRepository = promotionTaxRepository;
+        Assert.notNull(promotionWithdrawalLimitRepository);
+        this.promotionWithdrawalLimitRepository = promotionWithdrawalLimitRepository;
     }
 
     @Override
@@ -48,32 +48,32 @@ class PromotionServiceImpl implements PromotionService {
     }
 
     @Override
-    public TaxPromotion findTaxPromotion(Long taxpromotionId) throws PromotionNotFoundException {
+    public PromotionTax findTaxPromotion(Long taxpromotionId) throws PromotionNotFoundException {
         // retrieve promotion infos
-        TaxPromotion taxPromotion = taxPromotionRepository.findOne(taxpromotionId);
-        if (taxPromotion == null) {
+        PromotionTax promotionTax = promotionTaxRepository.findOne(taxpromotionId);
+        if (promotionTax == null) {
             throw new PromotionNotFoundException();
         }
-        return taxPromotion;
+        return promotionTax;
     }
 
     @Override
-    public BonusPromotion findBonusPromotion(Long bonuspromotionId) throws PromotionNotFoundException {
+    public PromotionBonus findBonusPromotion(Long bonuspromotionId) throws PromotionNotFoundException {
         // retrieve promotion infos
-        BonusPromotion bonusPromotion = bonusPromotionRepository.findOne(bonuspromotionId);
-        if (bonusPromotion == null) {
+        PromotionBonus promotionBonus = promotionBonusRepository.findOne(bonuspromotionId);
+        if (promotionBonus == null) {
             throw new PromotionNotFoundException();
         }
-        return bonusPromotion;
+        return promotionBonus;
     }
 
     @Override
-    public WithdrawalLimitPromotion findWithdrawalLimitPromotion(Long withdrawalLimitPromotionId) throws PromotionNotFoundException {
+    public PromotionWithdrawalLimit findWithdrawalLimitPromotion(Long withdrawalLimitPromotionId) throws PromotionNotFoundException {
         // retrieve promotion infos
-        WithdrawalLimitPromotion withdrawalLimitPromotion = withdrawalLimitPromotionRepository.findOne(withdrawalLimitPromotionId);
-        if (withdrawalLimitPromotion == null) {
+        PromotionWithdrawalLimit promotionWithdrawalLimit = promotionWithdrawalLimitRepository.findOne(withdrawalLimitPromotionId);
+        if (promotionWithdrawalLimit == null) {
             throw new PromotionNotFoundException();
         }
-        return withdrawalLimitPromotion;
+        return promotionWithdrawalLimit;
     }
 }

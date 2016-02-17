@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
  * Created by p0wontnx on 1/21/16.
  */
 @Repository
-interface WithdrawalLimitPromotionRepository extends JpaRepository<WithdrawalLimitPromotion, Long> {
+interface PromotionBonusRepository extends JpaRepository<PromotionBonus, Long> {
 }
