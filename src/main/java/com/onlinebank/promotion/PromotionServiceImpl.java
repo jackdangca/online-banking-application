@@ -1,6 +1,7 @@
 package com.onlinebank.promotion;
 
 import com.onlinebank.promotion.exceptions.PromotionNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -17,6 +18,7 @@ class PromotionServiceImpl implements PromotionService {
     private TaxPromotionRepository taxPromotionRepository;
     private WithdrawalLimitPromotionRepository withdrawalLimitPromotionRepository;
 
+    @Autowired
     public PromotionServiceImpl(PromotionRepository promotionRepository, BonusPromotionRepository bonusPromotionRepository, TaxPromotionRepository taxPromotionRepository, WithdrawalLimitPromotionRepository withdrawalLimitPromotionRepository) {
         Assert.notNull(promotionRepository);
         this.promotionRepository = promotionRepository;
