@@ -46,7 +46,7 @@ public class PromotionController {
     }
 
     @RequestMapping(path = "/{promotionId}", method = RequestMethod.GET)
-    public ResponseEntity<ObjectNode> listAllUserAccountInfos(@PathVariable("promotionId") Long promotionId) throws PromotionNotFoundException {
+    public ResponseEntity<ObjectNode> listPromotionInfos(@PathVariable("promotionId") Long promotionId) throws PromotionNotFoundException {
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 

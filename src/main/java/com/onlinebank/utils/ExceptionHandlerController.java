@@ -5,6 +5,7 @@ import com.onlinebank.account.exceptions.AccountCreationFailedException;
 import com.onlinebank.account.exceptions.AccountEditingException;
 import com.onlinebank.account.exceptions.AccountNotFoundException;
 import com.onlinebank.promotion.exceptions.PromotionNotFoundException;
+import com.onlinebank.transaction.exceptions.TransactionNotFoundException;
 import com.onlinebank.user.exceptions.UserEditingFailedException;
 import com.onlinebank.user.exceptions.UserNotFoundException;
 import com.onlinebank.user.exceptions.UserRegistrationFailedException;
@@ -120,6 +121,18 @@ public class ExceptionHandlerController {
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         responseBuilder.setResponseErrors(new String[]{"Promotion not found"});
+        responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase());
+
+        return new ResponseEntity<ObjectNode>(responseBuilder.build(), HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(TransactionNotFoundException.class)
+    public ResponseEntity<ObjectNode> transactionNotFoundExceptionHandler() {
+
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+
+        responseBuilder.setResponseErrors(new String[]{"Transaction not found"});
         responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase());
 
         return new ResponseEntity<ObjectNode>(responseBuilder.build(), HttpStatus.NOT_FOUND);

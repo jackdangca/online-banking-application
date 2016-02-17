@@ -8,6 +8,7 @@ import com.onlinebank.account.exceptions.AccountNotFoundException;
 import com.onlinebank.user.User;
 import com.onlinebank.user.UserService;
 import com.onlinebank.user.exceptions.UserNotFoundException;
+import com.onlinebank.utils.AccountTypes;
 import com.onlinebank.utils.ResponseBuilder;
 import com.onlinebank.utils.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class AccountController {
 
     //region Account infos
     @RequestMapping(path = {"", "/"}, method = RequestMethod.GET)
-    public ResponseEntity<ObjectNode> listAllUserAccounts(@PathVariable("userId") Long userId) throws UserNotFoundException {
+    public ResponseEntity<ObjectNode> getAllUserAccounts(@PathVariable("userId") Long userId) throws UserNotFoundException {
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
@@ -61,7 +62,7 @@ public class AccountController {
     }
 
     @RequestMapping(path = "/{accountId}", method = RequestMethod.GET)
-    public ResponseEntity<ObjectNode> listAllUserAccountInfos(@PathVariable("userId") Long userId, @PathVariable("accountId") Long accountId) throws UserNotFoundException, AccountNotFoundException {
+    public ResponseEntity<ObjectNode> getUserAccountInfos(@PathVariable("userId") Long userId, @PathVariable("accountId") Long accountId) throws UserNotFoundException, AccountNotFoundException {
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 

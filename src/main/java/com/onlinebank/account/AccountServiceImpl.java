@@ -58,6 +58,19 @@ class AccountServiceImpl implements AccountService {
         if (account == null) {
             throw new AccountNotFoundException();
         }
+
+        switch (account.getAccountType()) {
+            case AccountTypes.CURRENT_ACCOUNT:
+                account = findCurrentAccount(accountId, user);
+                break;
+            case AccountTypes.SAVING_ACCOUNT:
+                account = findSavingAccount(accountId, user);
+                break;
+            case AccountTypes.TERM_ACCOUNT:
+                account = findTermAccount(accountId, user);
+                break;
+        }
+
         return account;
     }
 
@@ -174,6 +187,7 @@ class AccountServiceImpl implements AccountService {
         }
         // verify if account was added successfully
         if (accountTerm.getAccountId() != null) {
+            accountTerm.setTermaccountId(accountTerm.getAccountId());
             return accountTerm;
         }
         throw new AccountCreationFailedException();
@@ -209,6 +223,7 @@ class AccountServiceImpl implements AccountService {
         }
         // verify if account was added successfully
         if (accountTransaction.getAccountId() != null) {
+            accountTransaction.setTransactionaccountId(accountTransaction.getAccountId());
             return accountTransaction;
         }
         throw new AccountCreationFailedException();
@@ -245,6 +260,8 @@ class AccountServiceImpl implements AccountService {
         }
         // verify if account was added successfully
         if (accountSaving.getAccountId() != null) {
+            accountSaving.setSavingaccountId(accountSaving.getAccountId());
+            accountSaving.setTransactionaccountId(accountSaving.getAccountId());
             return accountSaving;
         }
         throw new AccountCreationFailedException();
@@ -281,6 +298,8 @@ class AccountServiceImpl implements AccountService {
         }
         // verify if account was added successfully
         if (accountCurrent.getAccountId() != null) {
+            accountCurrent.setCurrentaccountId(accountCurrent.getCurrentaccountId());
+            accountCurrent.setTransactionaccountId(accountCurrent.getCurrentaccountId());
             return accountCurrent;
         }
         throw new AccountCreationFailedException();
