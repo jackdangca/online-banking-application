@@ -74,7 +74,8 @@ public class PromotionProcessor {
                         accountCreationDate = account.getCreationDate();
                         daysFromAccountCreation = Utils.daysBetween(today, accountCreationDate);
                         if (daysFromAccountCreation != 0 && daysFromAccountCreation % promotionTax.getPeriod() == 0) {
-                            account.setBalance(account.getBalance() * (1 + promotionTax.getTaxPp()));
+                            account.setBalance(account.getBalance() * (1 - promotionTax.getTaxPp()) > 0 ?
+                                    account.getBalance() * (1 - promotionTax.getTaxPp()) : 0);
                         }
                         break;
                     case AccountTypes.SAVING_ACCOUNT:
@@ -92,7 +93,8 @@ public class PromotionProcessor {
                         accountCreationDate = account.getCreationDate();
                         daysFromAccountCreation = Utils.daysBetween(today, accountCreationDate);
                         if (daysFromAccountCreation != 0 && daysFromAccountCreation % promotionTax.getPeriod() == 0) {
-                            account.setBalance(account.getBalance() * (1 + promotionTax.getTaxPp()));
+                            account.setBalance(account.getBalance() * (1 - promotionTax.getTaxPp()) > 0 ?
+                                    account.getBalance() * (1 - promotionTax.getTaxPp()) : 0);
                         }
 
                         break;

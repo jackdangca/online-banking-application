@@ -3,6 +3,7 @@ package com.onlinebank.account;
 import com.onlinebank.account.exceptions.AccountCreationFailedException;
 import com.onlinebank.account.exceptions.AccountEditingException;
 import com.onlinebank.account.exceptions.AccountNotFoundException;
+import com.onlinebank.account.exceptions.AccountTransferFailedException;
 import com.onlinebank.user.User;
 import com.onlinebank.utils.AccountTypes;
 import com.onlinebank.utils.Utils;
@@ -69,6 +70,19 @@ class AccountServiceImpl implements AccountService {
             case AccountTypes.TERM_ACCOUNT:
                 account = findTermAccount(accountId, user);
                 break;
+        }
+
+        return account;
+    }
+
+    @Override
+    public Account findByNumber(Long accountNumber) throws AccountNotFoundException {
+
+        // retrieve account
+        Account account = accountRepository.findOneByNumber(accountNumber);
+
+        if (account == null) {
+            throw new AccountNotFoundException();
         }
 
         return account;
@@ -298,8 +312,8 @@ class AccountServiceImpl implements AccountService {
         }
         // verify if account was added successfully
         if (accountCurrent.getAccountId() != null) {
-            accountCurrent.setCurrentaccountId(accountCurrent.getCurrentaccountId());
-            accountCurrent.setTransactionaccountId(accountCurrent.getCurrentaccountId());
+            accountCurrent.setCurrentaccountId(accountCurrent.getAccountId());
+            accountCurrent.setTransactionaccountId(accountCurrent.getAccountId());
             return accountCurrent;
         }
         throw new AccountCreationFailedException();
@@ -501,6 +515,17 @@ class AccountServiceImpl implements AccountService {
         throw new AccountEditingException();
     }
     //endregion
+
+    @Override
+    public void transfer(Account srcAccount, Account dstAccount, Double balance) throws AccountTransferFailedException {
+        if (srcAccount.getBalance() - balance < 0) {
+            throw new AccountTransferFailedException();
+        }
+        srcAccount.setBalance(srcAccount.getBalance() - balance);
+        accountRepository.save(srcAccount);
+        dstAccount.setBalance(dstAccount.getBalance() + balance);
+        accountRepository.save(dstAccount);
+    }
 
     //region Account delete
     @Override

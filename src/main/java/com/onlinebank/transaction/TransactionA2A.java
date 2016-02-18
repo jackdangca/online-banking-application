@@ -15,33 +15,20 @@ public class TransactionA2A extends Transaction {
     @Column(insertable = false, updatable = false)
     private Long a2atransactionId;
 
-    @NotNull
     private Long srcAccountId;
 
-    @NotNull
     private Long dstAccountId;
 
+    @NotNull
     private Double balance;
+
+    private Long srcAccountNum;
+
+    @NotNull
+    private Long dstAccountNum;
 
     public Double getBalance() {
         return balance;
-    }
-
-    public Long getA2atransactionId() {
-        return a2atransactionId;
-    }
-
-    public Long getDstAccountId() {
-        return dstAccountId;
-    }
-
-    public Long getSrcAccountId() {
-        return srcAccountId;
-    }
-
-    public TransactionA2A setA2atransactionId(Long a2atransactionId) {
-        this.a2atransactionId = a2atransactionId;
-        return this;
     }
 
     public TransactionA2A setBalance(Double balance) {
@@ -49,9 +36,26 @@ public class TransactionA2A extends Transaction {
         return this;
     }
 
+    public Long getA2atransactionId() {
+        return a2atransactionId;
+    }
+
+    public TransactionA2A setA2atransactionId(Long a2atransactionId) {
+        this.a2atransactionId = a2atransactionId;
+        return this;
+    }
+
+    public Long getDstAccountId() {
+        return dstAccountId;
+    }
+
     public TransactionA2A setDstAccountId(Long dstAccountId) {
         this.dstAccountId = dstAccountId;
         return this;
+    }
+
+    public Long getSrcAccountId() {
+        return srcAccountId;
     }
 
     public TransactionA2A setSrcAccountId(Long srcAccountId) {
@@ -59,4 +63,21 @@ public class TransactionA2A extends Transaction {
         return this;
     }
 
+    public Long getDstAccountNum() {
+        return dstAccountNum;
+    }
+
+    public Long getSrcAccountNum() {
+        return srcAccountNum;
+    }
+
+    public TransactionA2A setDstAccountNum(Long dstAccountNum) {
+        this.dstAccountNum = dstAccountNum;
+        return this;
+    }
+
+    public TransactionA2A setSrcAccountNum(Long srcAccountNum) {
+        this.srcAccountNum = srcAccountNum;
+        return this;
+    }
 }

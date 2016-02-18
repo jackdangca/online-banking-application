@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.onlinebank.account.exceptions.AccountCreationFailedException;
 import com.onlinebank.account.exceptions.AccountEditingException;
 import com.onlinebank.account.exceptions.AccountNotFoundException;
+import com.onlinebank.account.exceptions.AccountTransferFailedException;
 import com.onlinebank.promotion.exceptions.PromotionNotFoundException;
+import com.onlinebank.transaction.exceptions.TransactionFailedException;
 import com.onlinebank.transaction.exceptions.TransactionNotFoundException;
 import com.onlinebank.user.exceptions.UserEditingFailedException;
 import com.onlinebank.user.exceptions.UserNotFoundException;
@@ -136,6 +138,30 @@ public class ExceptionHandlerController {
         responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase());
 
         return new ResponseEntity<ObjectNode>(responseBuilder.build(), HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(TransactionFailedException.class)
+    public ResponseEntity<ObjectNode> transactionFailedExceptionHandler(TransactionFailedException e) {
+
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+
+        responseBuilder.setResponseErrors(new String[]{e.getMessage()});
+        responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase());
+
+        return new ResponseEntity<ObjectNode>(responseBuilder.build(), HttpStatus.PRECONDITION_FAILED);
+
+    }
+
+    @ExceptionHandler(AccountTransferFailedException.class)
+    public ResponseEntity<ObjectNode> accountTransferFailedExceptionHandler() {
+
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+
+        responseBuilder.setResponseErrors(new String[]{"Account trasfert failed"});
+        responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase());
+
+        return new ResponseEntity<ObjectNode>(responseBuilder.build(), HttpStatus.PRECONDITION_FAILED);
 
     }
 

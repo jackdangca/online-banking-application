@@ -1,14 +1,18 @@
 package com.onlinebank.transaction;
 
 import com.onlinebank.account.Account;
-import com.onlinebank.account.exceptions.AccountNotFoundException;
+import com.onlinebank.account.AccountService;
+import com.onlinebank.transaction.exceptions.TransactionFailedException;
 import com.onlinebank.transaction.exceptions.TransactionNotFoundException;
 import com.onlinebank.utils.TransactionTypes;
+import com.onlinebank.utils.Utils;
+import com.onlinebank.utils.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,9 +25,10 @@ class TransactionServiceImpl implements TransactionService {
     private TransactionA2ARepository transactionA2ARepository;
     private TransactionCheckRepository transactionCheckRepository;
     private TransactionTicketDepositRepository transactionTicketDepositRepository;
+    private AccountService accountService;
 
     @Autowired
-    public TransactionServiceImpl(TransactionRepository transactionRepository, TransactionA2ARepository transactionA2ARepository, TransactionCheckRepository transactionCheckRepository, TransactionTicketDepositRepository transactionTicketDepositRepository) {
+    public TransactionServiceImpl(TransactionRepository transactionRepository, TransactionA2ARepository transactionA2ARepository, TransactionCheckRepository transactionCheckRepository, TransactionTicketDepositRepository transactionTicketDepositRepository, AccountService accountService) {
         Assert.notNull(transactionRepository);
         this.transactionRepository = transactionRepository;
 
@@ -35,6 +40,9 @@ class TransactionServiceImpl implements TransactionService {
 
         Assert.notNull(transactionTicketDepositRepository);
         this.transactionTicketDepositRepository = transactionTicketDepositRepository;
+
+        Assert.notNull(accountService);
+        this.accountService = accountService;
     }
 
     @Override
@@ -64,7 +72,7 @@ class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction find(Long transactionId, Account account) throws AccountNotFoundException, TransactionNotFoundException {
+    public Transaction find(Long transactionId, Account account) throws TransactionNotFoundException {
 
         // retrieve transaction
         Transaction transaction = transactionRepository.findByTransactionId(transactionId);
@@ -125,5 +133,31 @@ class TransactionServiceImpl implements TransactionService {
         }
 
         return transactionTicketDeposit;
+    }
+
+    @Override
+    public TransactionA2A addA2ATransaction(TransactionA2A transactionA2A, Account srcAccount, Account dstAccount) throws BadRequestException, TransactionFailedException {
+
+        transactionA2A.setSrcAccountId(srcAccount.getAccountId());
+        transactionA2A.setSrcAccountNum(srcAccount.getNumber());
+        transactionA2A.setDstAccountId(dstAccount.getAccountId());
+        transactionA2A.setDstAccountNum(dstAccount.getNumber());
+        transactionA2A.setDate(new Date());
+
+        // verify null fields
+        if (Utils.isModelFieldNull(transactionA2A)) {
+            throw new BadRequestException(transactionA2A);
+        }
+
+        // TODO : withdrawal verifier
+        try {
+            accountService.transfer(srcAccount, dstAccount, transactionA2A.getBalance());
+            transactionA2A = transactionA2ARepository.save(transactionA2A);
+        } catch (Exception e) {
+            throw new TransactionFailedException("Transaction failed");
+        }
+
+        return transactionA2A;
+
     }
 }

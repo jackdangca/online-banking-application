@@ -3,6 +3,7 @@ package com.onlinebank.account;
 import com.onlinebank.account.exceptions.AccountCreationFailedException;
 import com.onlinebank.account.exceptions.AccountEditingException;
 import com.onlinebank.account.exceptions.AccountNotFoundException;
+import com.onlinebank.account.exceptions.AccountTransferFailedException;
 import com.onlinebank.user.User;
 import com.onlinebank.utils.exceptions.BadRequestException;
 
@@ -16,6 +17,8 @@ public interface AccountService {
     List<Account> findAll(User user);
 
     Account find(Long accountId, User user) throws AccountNotFoundException;
+
+    Account findByNumber(Long accountNumber) throws AccountNotFoundException;
 
     AccountTransaction findTransactionAccount(Long transactionAccountId, User user) throws AccountNotFoundException;
 
@@ -44,6 +47,8 @@ public interface AccountService {
     AccountCurrent add(AccountCurrent accountCurrent, User user) throws BadRequestException, AccountCreationFailedException;
 
     AccountCurrent edit(Long accoutnId, AccountCurrent accountCurrent, User user) throws BadRequestException, AccountEditingException, AccountNotFoundException;
+
+    void transfer(Account srcAccount, Account dstAccount, Double balance) throws AccountTransferFailedException;
 
     void remove(long accountId, User user) throws AccountNotFoundException;
 

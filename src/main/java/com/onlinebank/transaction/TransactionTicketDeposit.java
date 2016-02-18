@@ -21,16 +21,11 @@ public class TransactionTicketDeposit extends Transaction {
     @NotNull
     private Long dstAccountId;
 
+    @NotNull
+    private Long dstAccountNum;
+
     public Long getDstAccountId() {
         return dstAccountId;
-    }
-
-    public Long getSrcTicketId() {
-        return srcTicketId;
-    }
-
-    public Long getTicketdepositId() {
-        return ticketdepositId;
     }
 
     public TransactionTicketDeposit setDstAccountId(Long dstAccountId) {
@@ -38,9 +33,17 @@ public class TransactionTicketDeposit extends Transaction {
         return this;
     }
 
+    public Long getSrcTicketId() {
+        return srcTicketId;
+    }
+
     public TransactionTicketDeposit setSrcTicketId(Long srcTicketId) {
         this.srcTicketId = srcTicketId;
         return this;
+    }
+
+    public Long getTicketdepositId() {
+        return ticketdepositId;
     }
 
     public TransactionTicketDeposit setTicketdepositId(Long ticketdepositId) {

@@ -1,13 +1,15 @@
 package com.onlinebank.promotion.web;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.onlinebank.promotion.Promotion;
-import com.onlinebank.promotion.PromotionService;
+import com.onlinebank.promotion.*;
+import com.onlinebank.promotion.exceptions.PromotionCreationFailed;
 import com.onlinebank.promotion.exceptions.PromotionNotFoundException;
 import com.onlinebank.utils.PromotionTypes;
 import com.onlinebank.utils.ResponseBuilder;
+import com.onlinebank.utils.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,6 +68,102 @@ public class PromotionController {
                 break;
         }
         responseBuilder.setResponseResult(promotion);
+
+        return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
+
+    }
+
+    @RequestMapping(path = "/add/bonus",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ObjectNode> addBonusPromotion(PromotionBonus promotionBonus) throws BadRequestException, PromotionCreationFailed {
+
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+
+        // create bonus promotion
+        promotionBonus = promotionService.add(promotionBonus);
+        responseBuilder.setResponseResult(promotionBonus);
+
+        return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
+
+    }
+
+    @RequestMapping(path = "/add/tax",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ObjectNode> addTaxPromotion(PromotionTax promotionTax) throws BadRequestException, PromotionCreationFailed {
+
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+
+        // create bonus promotion
+        promotionTax = promotionService.add(promotionTax);
+        responseBuilder.setResponseResult(promotionTax);
+
+        return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
+
+    }
+
+    @RequestMapping(path = "/add/withdrawal",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ObjectNode> addWithdrawalPromotion(PromotionWithdrawalLimit promotionWithdrawalLimit) throws BadRequestException, PromotionCreationFailed {
+
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+
+        // create promotionWithdrawalLimit promotion
+        promotionWithdrawalLimit = promotionService.add(promotionWithdrawalLimit);
+        responseBuilder.setResponseResult(promotionWithdrawalLimit);
+
+        return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
+
+    }
+
+    @RequestMapping(path = "/{promotionId}/edit/bonus",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ObjectNode> editBonusPromotion(@PathVariable("promotionId") Long promotionBonusId, PromotionBonus promotionBonus) throws BadRequestException, PromotionCreationFailed, PromotionNotFoundException {
+
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+
+        // edit bonus promotion
+        promotionBonus = promotionService.edit(promotionBonusId, promotionBonus);
+        responseBuilder.setResponseResult(promotionBonus);
+
+        return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
+
+    }
+
+    @RequestMapping(path = "/{promotionId}/edit/tax",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ObjectNode> editTaxPromotion(@PathVariable("promotionId") Long promotionTaxId, PromotionTax promotionTax) throws BadRequestException, PromotionCreationFailed, PromotionNotFoundException {
+
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+
+        // edit tax promotion
+        promotionTax = promotionService.edit(promotionTaxId, promotionTax);
+        responseBuilder.setResponseResult(promotionTax);
+
+        return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
+
+    }
+
+    @RequestMapping(path = "/{promotionId}/edit/withdrawal",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ObjectNode> editWithdrawalPromotion(@PathVariable("promotionId") Long promotionWithdrawalLimitId, PromotionWithdrawalLimit promotionWithdrawalLimit) throws BadRequestException, PromotionCreationFailed, PromotionNotFoundException {
+
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+
+        // edit withdrawalLimit promotion
+        promotionWithdrawalLimit = promotionService.edit(promotionWithdrawalLimitId, promotionWithdrawalLimit);
+        responseBuilder.setResponseResult(promotionWithdrawalLimit);
 
         return new ResponseEntity<ObjectNode>(responseBuilder.setResponseStatus(HttpStatus.OK.getReasonPhrase()).build(), HttpStatus.OK);
 

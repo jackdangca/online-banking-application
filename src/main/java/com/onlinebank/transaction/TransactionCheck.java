@@ -24,6 +24,12 @@ public class TransactionCheck extends Transaction {
     @NotNull
     private Long dstAccountId;
 
+    @NotNull
+    private Long srcAccountNum;
+
+    @NotNull
+    private Long dstAccountNum;
+
     public Long getSrcAccountId() {
         return srcAccountId;
     }
@@ -59,4 +65,23 @@ public class TransactionCheck extends Transaction {
         this.srcAccountId = srcAccountId;
         return this;
     }
+
+    public Long getSrcAccountNum() {
+        return srcAccountNum;
+    }
+
+    public Long getDstAccountNum() {
+        return dstAccountNum;
+    }
+
+    public TransactionCheck setDstAccountNum(Long dstAccountNum) {
+        this.dstAccountNum = dstAccountNum;
+        return this;
+    }
+
+    public TransactionCheck setSrcAccountNum(Long srcAccountNum) {
+        this.srcAccountNum = srcAccountNum;
+        return this;
+    }
+
 }
