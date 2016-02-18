@@ -169,4 +169,14 @@ public class PromotionController {
 
     }
 
+    @RequestMapping(path = "/{promotionId}/remove",
+            method = RequestMethod.GET)
+    public ResponseEntity removePromotion(@PathVariable("promotionId") Long promotionId) throws PromotionNotFoundException {
+
+        // remove promotion
+        promotionService.remove(promotionId);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }

@@ -303,4 +303,30 @@ public class PromotionControllerTests extends OnlineBankApplicationTests {
 
     }
 
+    @Test
+    public void testPromotionRemove() throws Exception, PromotionCreationFailed {
+
+        PromotionBonus promotionBonus = new PromotionBonus();
+
+        // init bonus promotion
+        promotionBonus.setBonusPp(1.0);
+        promotionBonus.setPeriod(366);
+
+        // add promotion
+        promotionBonus = promotionService.add(promotionBonus);
+
+        String url = "/api/promotion/" + promotionBonus.getBonuspromotionId() + "/remove";
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.get(url)).andReturn();
+
+        Assert.assertEquals("failure - expected HTTP status 200", result.getResponse().getStatus(), HttpStatus.OK.value());
+
+        url = "/api/promotion/" + promotionBonus.getBonuspromotionId();
+
+        result = mvc.perform(MockMvcRequestBuilders.get(url)).andReturn();
+
+        Assert.assertEquals("failure - expected HTTP status 404", result.getResponse().getStatus(), HttpStatus.NOT_FOUND.value());
+
+    }
+
 }

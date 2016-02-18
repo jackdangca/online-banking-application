@@ -5,6 +5,7 @@ import com.onlinebank.account.exceptions.AccountCreationFailedException;
 import com.onlinebank.account.exceptions.AccountEditingException;
 import com.onlinebank.account.exceptions.AccountNotFoundException;
 import com.onlinebank.account.exceptions.AccountTransferFailedException;
+import com.onlinebank.promotion.exceptions.PromotionCreationFailed;
 import com.onlinebank.promotion.exceptions.PromotionNotFoundException;
 import com.onlinebank.transaction.exceptions.TransactionFailedException;
 import com.onlinebank.transaction.exceptions.TransactionNotFoundException;
@@ -126,6 +127,18 @@ public class ExceptionHandlerController {
         responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase());
 
         return new ResponseEntity<ObjectNode>(responseBuilder.build(), HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(PromotionCreationFailed.class)
+    public ResponseEntity<ObjectNode> promotionCreationFailedHandler() {
+
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+
+        responseBuilder.setResponseErrors(new String[]{"Promotion creation failed"});
+        responseBuilder.setResponseStatus(HttpStatus.PRECONDITION_FAILED.getReasonPhrase());
+
+        return new ResponseEntity<ObjectNode>(responseBuilder.build(), HttpStatus.PRECONDITION_FAILED);
 
     }
 
