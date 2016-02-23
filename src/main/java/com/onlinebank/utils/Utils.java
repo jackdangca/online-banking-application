@@ -1,15 +1,10 @@
 package com.onlinebank.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 /**
@@ -38,7 +33,7 @@ public class Utils {
             if (field.isAnnotationPresent(NotNull.class)) {
                 field.setAccessible(true);
                 try {
-                    if (field.get(obj) == null) {
+                    if (field.get(obj) == null || (field.get(obj).getClass() == String.class && ((String) field.get(obj)).isEmpty())) {
                         return true;
                     }
                 } catch (IllegalAccessException e) {
@@ -63,7 +58,7 @@ public class Utils {
                 if (field.isAnnotationPresent(NotNull.class)) {
                     field.setAccessible(true);
                     try {
-                        if (field.get(obj) == null) {
+                        if (field.get(obj) == null || (field.get(obj).getClass() == String.class && ((String) field.get(obj)).isEmpty())) {
                             nullFields.add(field.getName());
                         }
                     } catch (IllegalAccessException e) {
@@ -93,11 +88,15 @@ public class Utils {
     }
 
     /**
-     * MD5 encrypter
+     * BCrypt
      *
      * @return
      */
     public static String encryptPassword(String password) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(password);
+        return hashedPassword;
+        /*
         try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
             byte[] encryptedPassword = md5.digest(password.getBytes("UTF-8"));
@@ -105,17 +104,18 @@ public class Utils {
         } catch (NoSuchAlgorithmException e) {
         } catch (UnsupportedEncodingException e) {
         }
-        return null;
+        return null; */
     }
 
     /**
      * Days between two dates
+     *
      * @param Date date1
      * @param Date date2
      * @return
      */
-    public static int daysBetween(Date d1, Date d2){
-        return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+    public static int daysBetween(Date d1, Date d2) {
+        return (int) ((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
     }
 
 }

@@ -9,7 +9,7 @@ import com.onlinebank.promotion.PromotionWithdrawalLimit;
 import com.onlinebank.promotion.exceptions.PromotionNotFoundException;
 import com.onlinebank.user.User;
 import com.onlinebank.user.UserService;
-import com.onlinebank.utils.AccountTypes;
+import com.onlinebank.account.utils.AccountTypes;
 import com.onlinebank.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

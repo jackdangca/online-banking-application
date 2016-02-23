@@ -5,7 +5,7 @@ import com.onlinebank.account.exceptions.AccountEditingException;
 import com.onlinebank.account.exceptions.AccountNotFoundException;
 import com.onlinebank.account.exceptions.AccountTransferFailedException;
 import com.onlinebank.user.User;
-import com.onlinebank.utils.AccountTypes;
+import com.onlinebank.account.utils.AccountTypes;
 import com.onlinebank.utils.Utils;
 import com.onlinebank.utils.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;

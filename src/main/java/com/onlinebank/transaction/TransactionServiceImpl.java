@@ -4,7 +4,7 @@ import com.onlinebank.account.Account;
 import com.onlinebank.account.AccountService;
 import com.onlinebank.transaction.exceptions.TransactionFailedException;
 import com.onlinebank.transaction.exceptions.TransactionNotFoundException;
-import com.onlinebank.utils.TransactionTypes;
+import com.onlinebank.transaction.utils.TransactionTypes;
 import com.onlinebank.utils.Utils;
 import com.onlinebank.utils.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;

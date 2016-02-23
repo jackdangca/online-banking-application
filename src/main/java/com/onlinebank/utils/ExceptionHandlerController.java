@@ -15,6 +15,7 @@ import com.onlinebank.user.exceptions.UserRegistrationFailedException;
 import com.onlinebank.utils.exceptions.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -148,6 +149,18 @@ public class ExceptionHandlerController {
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         responseBuilder.setResponseErrors(new String[]{"Transaction not found"});
+        responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase());
+
+        return new ResponseEntity<ObjectNode>(responseBuilder.build(), HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ObjectNode> usernameNotFoundExceptionHandler() {
+
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+
+        responseBuilder.setResponseErrors(new String[]{"Username not found"});
         responseBuilder.setResponseStatus(HttpStatus.NOT_FOUND.getReasonPhrase());
 
         return new ResponseEntity<ObjectNode>(responseBuilder.build(), HttpStatus.NOT_FOUND);

@@ -2586,7 +2586,7 @@
       </column>
       <column id="628" parent="57" name="password">
         <mandatory>1</mandatory>
-        <data-type>varchar(45)</data-type>
+        <data-type>varchar(100)</data-type>
       </column>
       <column id="629" parent="57" name="country">
         <mandatory>1</mandatory>

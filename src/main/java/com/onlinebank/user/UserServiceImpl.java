@@ -1,15 +1,21 @@
 package com.onlinebank.user;
 
-import com.onlinebank.utils.Utils;
-import com.onlinebank.utils.exceptions.BadRequestException;
 import com.onlinebank.user.exceptions.UserEditingFailedException;
 import com.onlinebank.user.exceptions.UserNotFoundException;
 import com.onlinebank.user.exceptions.UserRegistrationFailedException;
+import com.onlinebank.utils.Utils;
+import com.onlinebank.utils.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,6 +50,45 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findOneByUsername(String username) throws UserNotFoundException {
+        User user = repository.findOneByMail(username);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+        return user;
+    }
+
+    public User authenticatedUser() throws UserNotFoundException {
+        User user = null;
+
+        org.springframework.security.core.userdetails.User authUser = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // retrieve user info
+        user = findOneByUsername(authUser.getUsername());
+
+        return user;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        User user = null;
+
+        try {
+            user = findOneByUsername(username);
+        } catch (UserNotFoundException e) {
+            throw new UsernameNotFoundException("User '" + username + "' not found.");
+        }
+        if (user != null) {
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            return new org.springframework.security.core.userdetails.User(user.getMail(), user.getPassword(), authorities);
+        }
+        throw new UsernameNotFoundException("User '" + username + "' not found.");
+
+    }
+
+    @Override
     public User register(User user) throws BadRequestException,
             UserRegistrationFailedException {
 
@@ -67,7 +112,6 @@ class UserServiceImpl implements UserService {
             return user;
         }
         throw new UserRegistrationFailedException();
-
     }
 
     @Override
@@ -87,9 +131,6 @@ class UserServiceImpl implements UserService {
         }
         if (user.getMail() != null) {
             oldUser.setMail(user.getMail());
-        }
-        if (user.getPassword() != null) {
-            oldUser.setPassword(Utils.encryptPassword(user.getPassword()));
         }
         if (user.getAddress() != null) {
             oldUser.setAddress(user.getAddress());

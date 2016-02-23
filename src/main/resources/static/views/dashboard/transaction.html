@@ -1,0 +1,39 @@
+<div>
+    <div class=jumbotron style="height: 100%;">
+        <div class=container><h2>Send money :</h2>
+
+            <div>
+                <form ng-submit="send()">
+                    <div class="passed card-panel green" ng-show="transactionPassed">
+                        <span class="white-text">Transaction passed</span>
+                    </div>
+
+                    <div class="failed card-panel red" ng-show="transactionFailed">
+                        <span class="white-text">Transaction failed</span>
+                    </div>
+
+                    <select name="accounts" ng-model="Transaction.srcAccountId"
+                            id="srcAccount" style="display: block;">
+                        <option value="" disabled selected>Choose account</option>
+                        <option ng-repeat="account in accounts"
+                                ng-if="account.accountType=='current' || account.accountType=='saving' "
+                                value={{account.accountId}}>
+                            {{account.label}}
+                        </option>
+                    </select>
+
+                    <label for="dstAccountNum">Destination account number : </label>
+                    <input id="dstAccountNum" type="text" class="validate fn" placeholder="Destination account"
+                           ng-model="Transaction.dstAccountNum">
+
+                    <label for="balance">Balance : </label>
+                    <input id="balance" type="number" class="validate fn" placeholder="Balance"
+                           ng-model="Transaction.balance">
+
+                    <button name="action" class="waves-effect waves-light btn" type="submit">Save</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

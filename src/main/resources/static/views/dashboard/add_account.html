@@ -1,0 +1,123 @@
+<div>
+    <div class=jumbotron style="height: 100%;">
+        <div class=container><h2>Add account :</h2>
+
+            <div>
+                <div>
+                    <div class="passed card-panel green" ng-show="creationPassed">
+                        <span class="white-text">Creation passed</span>
+                    </div>
+
+                    <div class="failed card-panel red" ng-show="creationFailed">
+                        <span class="white-text">Creation failed</span>
+                    </div>
+
+
+                    <select id="account_select" onchange="selectHandler()" style="display: block;">
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">Saving Account</option>
+                        <option value="2">Term Account</option>
+                        <option value="3">Current Account</option>
+                    </select>
+
+
+                    <div class="row" id="saving_form" style="display: none;">
+                        <form name="saving_form" ng-submit="submitSavingForm()">
+
+                            <div class="input-field col s12">
+                                <input id="label" type="text" placeholder="label" class="validate"
+                                       ng-model="SavingAccount.label">
+                            </div>
+                            <br>
+                            <br>
+                            <select name="taxpromotionId" ng-model="SavingAccount.taxpromotionId"
+                                    id="savingTaxSelect" style="display: block;">
+                                <option value="" disabled selected>Choose tax promotion</option>
+                                <option ng-repeat="promotion in promotions" ng-if="promotion.promotionType=='tax'">
+                                    {{promotion.promotionId}}
+                                </option>
+                            </select>
+                            <br>
+                            <br>
+                            <select name="bonuspromotionId" ng-model="SavingAccount.bonuspromotionId"
+                                    id="savingBonusSelect" style="display: block;">
+                                <option value="" disabled selected>Choose bonus promotion</option>
+                                <option ng-repeat="promotion in promotions" ng-if="promotion.promotionType=='bonus'">
+                                    {{promotion.promotionId}}
+                                </option>
+                            </select>
+                            <br>
+                            <br>
+                            <select name="withdrawallimitpromotionId"
+                                    ng-model="SavingAccount.withdrawallimitpromotionId"
+                                    id="withdrawallimitSelect" style="display: block;">
+                                <option value="" disabled selected>Choose withdrawallimit promotion</option>
+                                <option ng-repeat="promotion in promotions"
+                                        ng-if="promotion.promotionType=='withdrawalLimit'">
+                                    {{promotion.promotionId}}
+                                </option>
+                            </select>
+                            <br>
+                            <br>
+                            <button name="action" class="waves-effect waves-light btn" type="submit">create<i
+                                    class="material-icons right">send</i></button>
+                        </form>
+                    </div>
+
+                    <div id="term_form" style="display: none;">
+                        <form name="term_form" ng-submit="submitTermForm()">
+                            <div class="input-field col s12">
+                                <input id="label" type="text" placeholder="label" class="validate"
+                                       ng-model="TermAccount.label">
+                            </div>
+
+                            <div class="input-field col s6" style="display: block;">
+                                <i class="material-icons prefix">av_timer</i>
+                                <input id="icon_prefix" placeholder="duration" type="number" class="validate"
+                                       ng-model="TermAccount.duration">
+                            </div>
+                            <br>
+                            <select name="bonuspromotionId" ng-model="TermAccount.bonuspromotionId"
+                                    id="termBonusSelect" style="display: block;">
+                                <option value="" disabled selected>Choose bonus promotion</option>
+                                <option ng-repeat="promotion in promotions" ng-if="promotion.promotionType=='bonus'">
+                                    {{promotion.promotionId}}
+                                </option>
+                            </select>
+                            <br>
+                            <br>
+                            <button name="action" class="waves-effect waves-light btn" type="submit">create<i
+                                    class="material-icons right">send</i></button>
+                        </form>
+                    </div>
+
+                    <div id="current_form" style="display: none;">
+                        <form name="current_form" ng-submit="submitCurrentForm()">
+
+                            <div class="input-field col s12">
+                                <input id="label" placeholder="label" type="text" class="validate"
+                                       ng-model="CurrentAccount.label">
+                            </div>
+
+                            <br>
+
+                            <select name="taxpromotionId" ng-model="CurrentAccount.taxpromotionId"
+                                    id="currentTaxSelect" style="display: block;">
+                                <option value="" disabled selected>Choose tax promotion</option>
+                                <option ng-repeat="promotion in promotions" ng-if="promotion.promotionType=='tax'">
+                                    {{promotion.promotionId}}
+                                </option>
+                            </select>
+                            <br>
+                            <br>
+                            <button name="action" class="waves-effect waves-light btn" type="submit">create<i
+                                    class="material-icons right">send</i></button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

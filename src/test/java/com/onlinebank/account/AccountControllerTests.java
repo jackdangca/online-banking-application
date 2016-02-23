@@ -90,9 +90,11 @@ public class AccountControllerTests extends OnlineBankApplicationTests {
 
         user = userService.register(user);
 
-        Account account = new Account();
+        AccountTerm account = new AccountTerm();
         // init account
         account.setLabel("Account1");
+        account.setDuration(366);
+        account.setBonuspromotionId(4l);
 
         account = accountService.add(account, user);
 

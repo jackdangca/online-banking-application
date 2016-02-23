@@ -2,7 +2,7 @@ package com.onlinebank.promotion;
 
 import com.onlinebank.promotion.exceptions.PromotionCreationFailed;
 import com.onlinebank.promotion.exceptions.PromotionNotFoundException;
-import com.onlinebank.utils.PromotionTypes;
+import com.onlinebank.promotion.utils.PromotionTypes;
 import com.onlinebank.utils.Utils;
 import com.onlinebank.utils.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;

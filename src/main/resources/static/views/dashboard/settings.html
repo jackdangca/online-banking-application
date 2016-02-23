@@ -1,0 +1,64 @@
+<div>
+    <div class=jumbotron style="height: 100%;">
+        <div class=container><h2>Settings :</h2>
+
+            <div class="passed card-panel green" ng-show="editPassed">
+                <span class="white-text">Edit passed</span>
+            </div>
+
+            <div class="failed card-panel red" ng-show="editFailed">
+                <span class="white-text">Edit failed</span>
+            </div>
+
+            <form ng-submit="editUser()">
+                <table>
+
+                    <tr>
+                        <td><label for="firstName">First Name : </label></td>
+                        <td><input id="firstName" type="text" class="validate fn" placeholder="First Name"
+                                   ng-model="user.firstName"></td>
+                    </tr>
+
+                    <tr>
+                        <td><label for="lastName">Last Name : </label></td>
+                        <td><input id="lastName" type="text" class="validate ln" placeholder="Last Name"
+                                   ng-model="user.lastName"></td>
+
+                    </tr>
+
+                    <tr>
+                        <td><label for="address">Address : </label></td>
+                        <td><input id="address" type="text" class="validate adr" placeholder="Address"
+                                   ng-model="user.address">
+                    </tr>
+
+                    <tr>
+                        <td><label for="mail">Mail : </label></td>
+                        <td><input id="mail" type="text" class="validate adr" placeholder="Mail"
+                                   ng-model="user.mail"></td>
+                    </tr>
+
+                    <tr>
+                        <td><label for="state">State : </label></td>
+                        <td><input id="state" type="text" class="validate st" placeholder="State"
+                                   ng-model="user.state"></td>
+                        <br>
+                    </tr>
+
+                    <tr>
+                        <td><label for="zip">Zip : </label></td>
+                        <td><input id="zip" type="number" class="validate zi" placeholder="Zip"
+                                   ng-model="user.zip"></td>
+                        <br>
+                    </tr>
+
+                </table>
+
+
+                <button name="action" class="waves-effect waves-light btn" type="submit">Save</button>
+
+            </form>
+
+        </div>
+    </div>
+</div>
