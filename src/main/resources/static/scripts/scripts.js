@@ -34,23 +34,34 @@ angular.module("yapp", ["ui.router", "ngAnimate"]).config(["$stateProvider", "$u
         templateUrl: "/views/dashboard/transaction.html",
         controller: "TransactionCtrl"
     })
-}]), angular.module("yapp").controller("LoginCtrl", function ($scope, $http, $location, $route) {
+}]), angular.module("yapp").controller("LoginCtrl", function ($scope, $http, $state, $location) {
+
+    $http.get("/api/user/me")
+        .success(function (data) {
+            if (data.result) {
+                $location.path('/dashboard');
+            }
+            $scope.user = data.result;
+        });
+
     $scope.submit = function () {
-        $http.post({
-                url: "/",
-                data: $scope.credentials,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function (obj) {
-                    var str = [];
-                    for (var p in obj)
-                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                    return str.join("&");
-                }
-            })
-            .then(function (data) {
-                location.href = '/#/dashboard/settings';
-            });
+
+        $http({
+            method: 'POST',
+            url: '/',
+            data: $scope.credentials,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function (obj) {
+                var str = [];
+                for (var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+        }).then(function () {
+            $location.path('/dashboard');
+        });
     }
+
 }), angular.module("yapp").controller("DashboardCtrl", function ($scope, $http, $state, $location) {
 
     $scope.$state = $state;
