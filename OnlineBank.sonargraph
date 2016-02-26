@@ -30,6 +30,18 @@
                 </element>
                 <dependency toName="Project|OnlineBank::VerticalSlice|User" type="AllowedDependency"/>
             </element>
+            <element type="VerticalSlice" name="Transaction">
+                <element type="TypeFilter" name="Assignment">
+                    <element type="IncludeTypePattern" name="**.transaction.**"/>
+                </element>
+                <dependency toName="Project|OnlineBank::VerticalSlice|Account" type="AllowedDependency"/>
+                <dependency toName="Project|OnlineBank::VerticalSlice|User" type="AllowedDependency"/>
+            </element>
+            <element type="VerticalSlice" name="Promotion">
+                <element type="TypeFilter" name="Assignment">
+                    <element type="IncludeTypePattern" name="**.promotion.**"/>
+                </element>
+            </element>
         </architecture>
         <workspace>
             <element type="JavaRootDirectory" name="src/main/java"/>

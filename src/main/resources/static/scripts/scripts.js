@@ -9,6 +9,11 @@ angular.module("yapp", ["ui.router", "ngAnimate"]).config(["$stateProvider", "$u
         parent: "base",
         templateUrl: "/views/login.html",
         controller: "LoginCtrl"
+    }).state("register", {
+        url: "/register",
+        parent: "base",
+        templateUrl: "/views/register.html",
+        controller: "RegisterCtrl"
     }).state("dashboard", {
         url: "/dashboard",
         parent: "base",
@@ -61,6 +66,44 @@ angular.module("yapp", ["ui.router", "ngAnimate"]).config(["$stateProvider", "$u
             $location.path('/dashboard');
         });
     }
+
+}), angular.module("yapp").controller("RegisterCtrl", function ($scope, $http, $state, $location) {
+
+    $scope.userCreationFailed = false;
+
+    $http.get("/api/user/me")
+        .success(function (data) {
+            if (data.result) {
+                $location.path('/dashboard');
+            }
+            $scope.user = data.result;
+        });
+
+    $scope.submit = function () {
+
+        $http({
+            method: 'POST',
+            url: '/api/user/register',
+            data: $scope.nUser,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function (obj) {
+                var str = [];
+                for (var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+        }).success(function (data) {
+            $scope.userCreationFailed = false;
+            $location.path('/login');
+        }).error(function (data) {
+            $scope.userCreationFailed = true;
+            console.log(data.errors);
+            data.errors.forEach(function (o) {
+                $('#' + o).addClass('invalid');
+            })
+        });
+    }
+
 
 }), angular.module("yapp").controller("DashboardCtrl", function ($scope, $http, $state, $location) {
 

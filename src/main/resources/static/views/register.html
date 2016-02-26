@@ -1,0 +1,48 @@
+<div class=login-page>
+    <div class=row>
+        <div class="col-md-4 col-lg-4 col-md-offset-4 col-lg-offset-4"><img src=images/flat-avatar.png
+                                                                            class=user-avatar>
+
+            <h1>Online Banking
+            </h1>
+
+            <div class="failed card-panel red" ng-show="userCreationFailed">
+                <span class="white-text">Creation failed</span>
+            </div>
+
+            <form role=form method="POST" ng-submit=submit()>
+                <div class=form-content>
+                    <div class=form-group><input id="firstName" type=text class="form-control input-underline input-lg"
+                                                 placeholder="First name" name="firstName" ng-model="nUser.firstName">
+                    </div>
+                    <div class=form-group><input id="lastName" type=text class="form-control input-underline input-lg"
+                                                 placeholder="Last name" name="lastName" ng-model="nUser.lastName">
+                    </div>
+                    <div class=form-group><input id="mail" type=text class="form-control input-underline input-lg"
+                                                 placeholder=Email name="mail" ng-model="nUser.mail">
+                    </div>
+                    <div class=form-group><input id="password" type=password
+                                                 class="form-control input-underline input-lg"
+                                                 placeholder=Password name="password" ng-model="nUser.password">
+                    </div>
+                    <div class=form-group><input id="country" type=text class="form-control input-underline input-lg"
+                                                 placeholder="Country" name="country" ng-model="nUser.country">
+                    </div>
+                    <div class=form-group><input id="state" type=text class="form-control input-underline input-lg"
+                                                 placeholder="State" name="state" ng-model="nUser.state">
+                    </div>
+                    <div class=form-group><input id="zip" type=text class="form-control input-underline input-lg"
+                                                 placeholder="Zip" name="zip" ng-model="nUser.zip">
+                    </div>
+                    <div class=form-group><input id="address" type=text class="form-control input-underline input-lg"
+                                                 placeholder="Address" name="address" ng-model="nUser.address">
+                    </div>
+                    <div class=form-group><input id="cin" type=text class="form-control input-underline input-lg"
+                                                 placeholder="Cin" name="cin" ng-model="nUser.cin">
+                    </div>
+                </div>
+                <button type=submit class="btn btn-white btn-outline btn-lg btn-rounded blue darken-4">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
